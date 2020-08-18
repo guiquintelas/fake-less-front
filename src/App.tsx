@@ -1,26 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Container from '@material-ui/core/Container';
+import { Box, styled } from '@material-ui/core';
+import Login from './pages/Login';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const Root = styled(Box)({
+  display: 'flex',
+  flexGrow: 1,
+  height: '100vh',
+  overflow: 'auto',
+});
+
+const App: React.FC = () => (
+  <Root>
+    <Container component="main" maxWidth="lg">
+      <Login />
+    </Container>
+  </Root>
+);
 
 export default App;
