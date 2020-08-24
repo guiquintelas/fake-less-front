@@ -1,13 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import grey from '@material-ui/core/colors/grey';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import App from './App';
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiSvgIcon: {
+      root: {
+        color: grey[600],
+      },
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
