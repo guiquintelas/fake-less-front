@@ -12,6 +12,16 @@ const theme = createMuiTheme({
         color: grey[600],
       },
     },
+    MuiInputBase: {
+      root: {
+        marginBottom: '22px',
+      },
+    },
+    MuiFormHelperText: {
+      root: {
+        marginTop: '-19px',
+      },
+    },
   },
 });
 
