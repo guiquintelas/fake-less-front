@@ -1,12 +1,12 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import CardActions from '@material-ui/core/CardActions';
 import Grid from '@material-ui/core/Grid';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Lock from '@material-ui/icons/Lock';
 import { makeStyles } from '@material-ui/core/styles';
+import { InputAdornment, Paper, useTheme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,21 +14,16 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
 
-  loginCard: {
+  loginPaper: {
+    width: '360px',
+    padding: theme.spacing(4),
     marginBottom: theme.spacing(5),
-  },
-
-  header: {
-    paddingBottom: theme.spacing(2),
-  },
-
-  fields: {
-    paddingBottom: theme.spacing(2),
   },
 }));
 
 const Login: React.FC = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <Grid
@@ -38,22 +33,52 @@ const Login: React.FC = () => {
       alignItems="center"
       className={classes.root}
     >
-      <Card className={classes.loginCard}>
-        <CardContent>
-          <Typography color="textSecondary" gutterBottom className={classes.header}>
+      <Paper className={classes.loginPaper}>
+        <Grid container spacing={1}>
+          <Typography
+            color="textSecondary"
+            gutterBottom
+            style={{ paddingBottom: theme.spacing(2) }}
+          >
             Login
           </Typography>
 
           <Grid container spacing={1} direction="column">
-            <TextField variant="outlined" label="Username" size="small" className={classes.fields} />
-            <TextField variant="outlined" label="Password" size="small" className={classes.fields} />
-          </Grid>
-        </CardContent>
+            <TextField
+              variant="outlined"
+              label="Username"
+              style={{ paddingBottom: theme.spacing(2) }}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-        <CardActions>
-          <Button variant="text" color="primary" size="small">Learn More</Button>
-        </CardActions>
-      </Card>
+            <TextField
+              variant="outlined"
+              label="Password"
+              type="password"
+              style={{ paddingBottom: theme.spacing(2) }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid container justify="flex-end">
+            <Button variant="text" color="primary">Login</Button>
+          </Grid>
+        </Grid>
+      </Paper>
+
     </Grid>
   );
 };
