@@ -12,6 +12,11 @@ const theme = createMuiTheme({
         color: grey[600],
       },
     },
+    MuiButton: {
+      root: {
+        color: grey[600],
+      },
+    },
     MuiInputBase: {
       root: {
         marginBottom: '22px',
