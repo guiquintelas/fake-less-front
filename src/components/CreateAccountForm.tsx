@@ -1,0 +1,118 @@
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Lock from '@material-ui/icons/Lock';
+import { TextField } from 'formik-material-ui';
+import { InputAdornment, useTheme } from '@material-ui/core';
+import {
+  Formik, Field, Form,
+} from 'formik';
+import * as Yup from 'yup';
+
+const initialValues = {
+  username: '',
+  password: '',
+  confirmPassword: '',
+};
+
+const validationSchema = Yup.object({
+  username: Yup.string().required('Fill with your username!'),
+  password: Yup.string().required('Fill with your password'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], "Passwords don't match")
+    .required('Please confirm our password!'),
+});
+
+type RenderBackButtonProps = {
+  resetForm: Function
+};
+
+type CreateAccountFormProps = {
+  renderBackButton?: (renderProps: RenderBackButtonProps) => React.ReactNode
+};
+
+const CreateAccountForm: React.FC<CreateAccountFormProps> = ({ renderBackButton }) => {
+  const theme = useTheme();
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(data, { setSubmitting, resetForm }) => {
+        console.log(data);
+        setSubmitting(false);
+        resetForm();
+      }}
+    >
+      {({ resetForm }) => (
+        <Form>
+          <Grid container spacing={1} direction="column">
+            <Field
+              component={TextField}
+              name="username"
+              variant="outlined"
+              label="Username"
+              style={{ paddingBottom: theme.spacing(1) }}
+              required
+              InputLabelProps={{ required: false }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <Field
+              component={TextField}
+              name="password"
+              variant="outlined"
+              label="Password"
+              type="password"
+              style={{ paddingBottom: theme.spacing(1) }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <Field
+              component={TextField}
+              name="confirmPassword"
+              variant="outlined"
+              label="Confirm Password"
+              type="password"
+              style={{ paddingBottom: theme.spacing(1) }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid container justify="flex-end">
+            { renderBackButton ? renderBackButton({ resetForm }) : null}
+
+            <Button
+              color="primary"
+              type="submit"
+            >
+              Create Account
+            </Button>
+          </Grid>
+        </Form>
+      )}
+    </Formik>
+
+  );
+};
+
+export default CreateAccountForm;

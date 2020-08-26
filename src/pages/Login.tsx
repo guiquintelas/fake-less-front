@@ -1,30 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Lock from '@material-ui/icons/Lock';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField } from 'formik-material-ui';
-import { InputAdornment, Paper, useTheme } from '@material-ui/core';
-import {
-  Formik, Field, Form,
-} from 'formik';
-import { object, string } from 'yup';
+import { Paper, useTheme } from '@material-ui/core';
+import LoginForm from '../components/LoginForm';
+import CreateAccountForm from '../components/CreateAccountForm';
 
-const initialValues = {
-  username: '',
-  password: '',
-};
-
-const validationSchema = object({
-  username: string().required('Fill with your username!'),
-  password: string().required('Fill with your password'),
-});
-
-function onSubmit(data: typeof initialValues) {
-  console.log(data);
-}
+type FormType = 'login' | 'create';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +26,19 @@ const Login: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
 
+  const [formType, setFormType] = useState<FormType>('login');
+
+  function switchForm(newFormType: FormType, resetForm: Function) {
+    resetForm({});
+    setFormType(newFormType);
+
+    if (newFormType === 'create') {
+      console.log('mudou para create');
+    } else {
+      console.log('mudou para login');
+    }
+  }
+
   return (
     <Grid
       container
@@ -55,63 +51,28 @@ const Login: React.FC = () => {
         <Grid container spacing={1} direction="column">
           <Typography
             color="textSecondary"
-            gutterBottom
-            style={{ paddingBottom: theme.spacing(2) }}
+            style={{ paddingBottom: theme.spacing(3) }}
           >
-            Login
+            {formType === 'login' ? 'Login' : 'Create Account'}
           </Typography>
 
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            <Form>
-              <Grid container spacing={1} direction="column">
-                <Field
-                  component={TextField}
-                  name="username"
-                  variant="outlined"
-                  label="Username"
-                  style={{ paddingBottom: theme.spacing(1) }}
-                  required
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AccountCircle />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-
-                <Field
-                  component={TextField}
-                  name="password"
-                  variant="outlined"
-                  label="Password"
-                  type="password"
-                  style={{ paddingBottom: theme.spacing(1) }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Lock />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-
-              <Grid container justify="flex-end">
-                <Button
-                  variant="text"
-                  color="primary"
-                  type="submit"
-                >
+          {formType === 'login' ? (
+            <LoginForm
+              renderBackButton={({ resetForm }) => (
+                <Button onClick={() => { switchForm('create', resetForm); }}>
+                  Create Account
+                </Button>
+              )}
+            />
+          ) : (
+            <CreateAccountForm
+              renderBackButton={({ resetForm }) => (
+                <Button onClick={() => { switchForm('login', resetForm); }}>
                   Login
                 </Button>
-              </Grid>
-            </Form>
-          </Formik>
+              )}
+            />
+          )}
         </Grid>
       </Paper>
     </Grid>
