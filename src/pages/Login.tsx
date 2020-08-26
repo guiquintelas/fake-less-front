@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, useTheme } from '@material-ui/core';
+import {
+  Switch,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 import CreateAccountForm from '../components/CreateAccountForm';
-
-type FormType = 'login' | 'create';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,19 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const Login: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
-
-  const [formType, setFormType] = useState<FormType>('login');
-
-  function switchForm(newFormType: FormType, resetForm: Function) {
-    resetForm({});
-    setFormType(newFormType);
-
-    if (newFormType === 'create') {
-      console.log('mudou para create');
-    } else {
-      console.log('mudou para login');
-    }
-  }
+  const location = useLocation();
 
   return (
     <Grid
@@ -53,26 +43,18 @@ const Login: React.FC = () => {
             color="textSecondary"
             style={{ paddingBottom: theme.spacing(3) }}
           >
-            {formType === 'login' ? 'Login' : 'Create Account'}
+            {location.pathname === '/login' ? 'Login' : 'Create Account'}
           </Typography>
 
-          {formType === 'login' ? (
-            <LoginForm
-              renderBackButton={({ resetForm }) => (
-                <Button onClick={() => { switchForm('create', resetForm); }}>
-                  Create Account
-                </Button>
-              )}
-            />
-          ) : (
-            <CreateAccountForm
-              renderBackButton={({ resetForm }) => (
-                <Button onClick={() => { switchForm('login', resetForm); }}>
-                  Login
-                </Button>
-              )}
-            />
-          )}
+          <Switch>
+            <Route path="/login">
+              <LoginForm />
+            </Route>
+
+            <Route path="/register">
+              <CreateAccountForm />
+            </Route>
+          </Switch>
         </Grid>
       </Paper>
     </Grid>

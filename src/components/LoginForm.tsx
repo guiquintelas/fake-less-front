@@ -9,6 +9,8 @@ import {
   Formik, Field, Form,
 } from 'formik';
 import { object, string } from 'yup';
+import { useHistory, useLocation } from 'react-router-dom';
+import { initialValues as CreateAccountFormValues } from './CreateAccountForm';
 
 const initialValues = {
   username: '',
@@ -20,23 +22,21 @@ const validationSchema = object({
   password: string().required('Fill with your password'),
 });
 
-type RenderBackButtonProps = {
-  resetForm: Function
-};
-
 type LoginFormProps = {
-  renderBackButton?: (renderProps: RenderBackButtonProps) => React.ReactNode
+
 };
 
-const LoginForm: React.FC<LoginFormProps> = ({ renderBackButton }) => {
+const LoginForm: React.FC<LoginFormProps> = () => {
   const theme = useTheme();
+  const history = useHistory();
+  const location = useLocation<typeof CreateAccountFormValues>();
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(data, { setSubmitting }) => {
-        console.log(data);
+        console.log('submit', data);
         setSubmitting(false);
       }}
     >
@@ -51,6 +51,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ renderBackButton }) => {
               style={{ paddingBottom: theme.spacing(1) }}
               required
               InputLabelProps={{ required: false }}
+              value={location.state?.username}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -67,6 +68,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ renderBackButton }) => {
               label="Password"
               type="password"
               style={{ paddingBottom: theme.spacing(1) }}
+              value={location.state?.password}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -78,7 +80,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ renderBackButton }) => {
           </Grid>
 
           <Grid container justify="flex-end">
-            { renderBackButton ? renderBackButton({ resetForm }) : null}
+            <Button onClick={() => {
+              resetForm({});
+              history.push('/register');
+            }}
+            >
+              Create Account
+            </Button>
 
             <Button
               color="primary"

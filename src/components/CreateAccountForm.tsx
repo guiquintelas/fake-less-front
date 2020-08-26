@@ -9,8 +9,9 @@ import {
   Formik, Field, Form,
 } from 'formik';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
 
-const initialValues = {
+export const initialValues = {
   username: '',
   password: '',
   confirmPassword: '',
@@ -24,25 +25,21 @@ const validationSchema = Yup.object({
     .required('Please confirm our password!'),
 });
 
-type RenderBackButtonProps = {
-  resetForm: Function
-};
-
 type CreateAccountFormProps = {
-  renderBackButton?: (renderProps: RenderBackButtonProps) => React.ReactNode
+
 };
 
-const CreateAccountForm: React.FC<CreateAccountFormProps> = ({ renderBackButton }) => {
+const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
   const theme = useTheme();
+  const history = useHistory();
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(data, { setSubmitting, resetForm }) => {
-        console.log(data);
-        setSubmitting(false);
-        resetForm();
+      onSubmit={(data) => {
+        console.log('submit', data);
+        return history.push('/login', data);
       }}
     >
       {({ resetForm }) => (
@@ -99,7 +96,13 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = ({ renderBackButton 
           </Grid>
 
           <Grid container justify="flex-end">
-            { renderBackButton ? renderBackButton({ resetForm }) : null}
+            <Button onClick={() => {
+              resetForm({});
+              history.push('/login');
+            }}
+            >
+              Login
+            </Button>
 
             <Button
               color="primary"
