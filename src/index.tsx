@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import grey from '@material-ui/core/colors/grey';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 
 const theme = createMuiTheme({
@@ -34,7 +35,9 @@ ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
     <ThemeProvider theme={theme}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),
