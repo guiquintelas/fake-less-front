@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MuiTextfield, { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
 import { useField, useFormikContext } from 'formik';
 import { InputAdornment } from '@material-ui/core';
@@ -10,11 +10,21 @@ export type TextFieldProps = MuiTextFieldProps & {
 
 const TextField: React.FC<TextFieldProps> = (
   {
-    name, icon, disabled, ...props
+    name,
+    icon,
+    disabled,
+    value,
+    ...props
   },
 ) => {
   const [field, meta] = useField(name);
-  const { isSubmitting } = useFormikContext();
+  const { isSubmitting, setFieldValue } = useFormikContext();
+
+  // every time the prop 'value' changes
+  // it reflects in formik state
+  useEffect(() => {
+    setFieldValue(name, value ?? '');
+  }, [value]);
 
   const iconAdornment = icon ? (
     <InputAdornment position="start">
@@ -25,13 +35,13 @@ const TextField: React.FC<TextFieldProps> = (
   return (
     <MuiTextfield
       {...field}
+      {...props}
       error={meta.touched && !!meta.error}
       helperText={meta.touched && meta.error ? meta.error : null}
       disabled={disabled || isSubmitting}
       InputProps={{
         startAdornment: iconAdornment,
       }}
-      {...props}
     />
   );
 };
