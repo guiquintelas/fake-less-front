@@ -1,28 +1,37 @@
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
 import MuiTextfield, { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
-// eslint-disable-next-line no-unused-vars
-import { useField, FieldProps, useFormikContext } from 'formik';
+import { useField, useFormikContext } from 'formik';
+import { InputAdornment } from '@material-ui/core';
 
 export type TextFieldProps = MuiTextFieldProps & {
-  name: string
+  name: string,
+  icon?: JSX.Element,
 };
 
 const TextField: React.FC<TextFieldProps> = (
   {
-    name, disabled, ...props
+    name, icon, disabled, ...props
   },
 ) => {
   const [field, meta] = useField(name);
   const { isSubmitting } = useFormikContext();
 
+  const iconAdornment = icon ? (
+    <InputAdornment position="start">
+      {icon}
+    </InputAdornment>
+  ) : null;
+
   return (
     <MuiTextfield
       {...field}
-      {...props}
       error={!!meta.error}
       helperText={meta.error}
       disabled={disabled || isSubmitting}
+      InputProps={{
+        startAdornment: iconAdornment,
+      }}
+      {...props}
     />
   );
 };

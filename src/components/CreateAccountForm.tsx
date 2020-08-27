@@ -1,8 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Lock from '@material-ui/icons/Lock';
+import { AccountCircle, Lock } from 'mdi-material-ui';
 import { InputAdornment, useTheme } from '@material-ui/core';
 import {
   Formik, Form,
@@ -52,13 +51,7 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
               style={{ paddingBottom: theme.spacing(1) }}
               required
               InputLabelProps={{ required: false }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              }}
+              icon={<AccountCircle />}
             />
 
             <TextField
@@ -67,13 +60,7 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
               label="Password"
               type="password"
               style={{ paddingBottom: theme.spacing(1) }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock />
-                  </InputAdornment>
-                ),
-              }}
+              icon={<Lock />}
             />
 
             <TextField
@@ -82,13 +69,7 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
               label="Confirm Password"
               type="password"
               style={{ paddingBottom: theme.spacing(1) }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock />
-                  </InputAdornment>
-                ),
-              }}
+              icon={<Lock />}
             />
           </Grid>
 

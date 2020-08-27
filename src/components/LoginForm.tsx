@@ -1,9 +1,8 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Lock from '@material-ui/icons/Lock';
-import { InputAdornment, useTheme } from '@material-ui/core';
+import { AccountCircle, Lock } from 'mdi-material-ui';
+import { useTheme } from '@material-ui/core';
 import {
   Formik, Form,
 } from 'formik';
@@ -51,13 +50,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
               required
               InputLabelProps={{ required: false }}
               value={location.state?.username}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              }}
+              icon={<AccountCircle />}
             />
 
             <TextField
@@ -67,13 +60,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
               type="password"
               style={{ paddingBottom: theme.spacing(1) }}
               value={location.state?.password}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock />
-                  </InputAdornment>
-                ),
-              }}
+              icon={<Lock />}
             />
           </Grid>
 
