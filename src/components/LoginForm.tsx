@@ -3,14 +3,14 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Lock from '@material-ui/icons/Lock';
-import { TextField } from 'formik-material-ui';
 import { InputAdornment, useTheme } from '@material-ui/core';
 import {
-  Formik, Field, Form,
+  Formik, Form,
 } from 'formik';
 import { object, string } from 'yup';
 import { useHistory, useLocation } from 'react-router-dom';
 import { initialValues as CreateAccountFormValues } from './CreateAccountForm';
+import TextField from './TextField';
 
 const initialValues = {
   username: '',
@@ -43,8 +43,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
       {({ resetForm }) => (
         <Form>
           <Grid container spacing={1} direction="column">
-            <Field
-              component={TextField}
+            <TextField
               name="username"
               variant="outlined"
               label="Username"
@@ -61,8 +60,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
               }}
             />
 
-            <Field
-              component={TextField}
+            <TextField
               name="password"
               variant="outlined"
               label="Password"
