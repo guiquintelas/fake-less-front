@@ -25,8 +25,8 @@ const TextField: React.FC<TextFieldProps> = (
   return (
     <MuiTextfield
       {...field}
-      error={!!meta.error}
-      helperText={meta.error}
+      error={meta.touched && !!meta.error}
+      helperText={meta.touched && meta.error ? meta.error : null}
       disabled={disabled || isSubmitting}
       InputProps={{
         startAdornment: iconAdornment,
