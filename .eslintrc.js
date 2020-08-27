@@ -31,7 +31,8 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    'react/prop-types': [0]
+    'react/prop-types': [0],
+    'react/jsx-props-no-spreading': [0]
   },
   settings: {
     'import/resolver': {
