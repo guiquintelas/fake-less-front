@@ -44,7 +44,6 @@ const LoginForm: React.FC<LoginFormProps> = () => {
           <Grid container spacing={1} direction="column">
             <TextField
               name="username"
-              variant="outlined"
               label="Username"
               style={{ paddingBottom: theme.spacing(1) }}
               required
@@ -55,7 +54,6 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
             <TextField
               name="password"
-              variant="outlined"
               label="Password"
               type="password"
               style={{ paddingBottom: theme.spacing(1) }}

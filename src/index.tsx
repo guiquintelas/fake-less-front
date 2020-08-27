@@ -29,6 +29,11 @@ const theme = createMuiTheme({
       },
     },
   },
+  props: {
+    MuiTextField: {
+      variant: 'outlined',
+    },
+  },
 });
 
 ReactDOM.render(

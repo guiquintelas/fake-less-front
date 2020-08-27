@@ -46,7 +46,6 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
           <Grid container spacing={1} direction="column">
             <TextField
               name="username"
-              variant="outlined"
               label="Username"
               style={{ paddingBottom: theme.spacing(1) }}
               required
@@ -56,7 +55,6 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
 
             <TextField
               name="password"
-              variant="outlined"
               label="Password"
               type="password"
               style={{ paddingBottom: theme.spacing(1) }}
@@ -65,7 +63,6 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
 
             <TextField
               name="confirmPassword"
-              variant="outlined"
               label="Confirm Password"
               type="password"
               style={{ paddingBottom: theme.spacing(1) }}
