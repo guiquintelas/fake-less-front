@@ -10,6 +10,7 @@ import { object, string } from 'yup';
 import { useHistory, useLocation } from 'react-router-dom';
 import { initialValues as CreateAccountFormValues } from './CreateAccountForm';
 import TextField from './TextField';
+import LoadingButton from './LoadingButton';
 
 const initialValues = {
   username: '',
@@ -34,10 +35,12 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(data, { setSubmitting }) => {
-        console.log('submit', data);
-        setSubmitting(false);
-      }}
+      onSubmit={async (data) => new Promise((resolve) => {
+        setTimeout(() => {
+          console.log(data);
+          resolve();
+        }, 2000);
+      })}
     >
       {({ resetForm }) => (
         <Form>
@@ -71,12 +74,12 @@ const LoginForm: React.FC<LoginFormProps> = () => {
               Create Account
             </Button>
 
-            <Button
+            <LoadingButton
               color="primary"
               type="submit"
             >
               Login
-            </Button>
+            </LoadingButton>
           </Grid>
         </Form>
       )}

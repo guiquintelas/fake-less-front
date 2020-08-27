@@ -2,13 +2,14 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { AccountCircle, Lock } from 'mdi-material-ui';
-import { InputAdornment, useTheme } from '@material-ui/core';
+import { useTheme } from '@material-ui/core';
 import {
   Formik, Form,
 } from 'formik';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import TextField from './TextField';
+import LoadingButton from './LoadingButton';
 
 export const initialValues = {
   username: '',
@@ -79,12 +80,12 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
               Login
             </Button>
 
-            <Button
+            <LoadingButton
               color="primary"
               type="submit"
             >
               Create Account
-            </Button>
+            </LoadingButton>
           </Grid>
         </Form>
       )}
