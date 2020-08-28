@@ -6,13 +6,11 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 
-const theme = createMuiTheme({
+let theme = createMuiTheme();
+
+theme = {
+  ...theme,
   overrides: {
-    MuiSvgIcon: {
-      root: {
-        color: grey[600],
-      },
-    },
     MuiButton: {
       root: {
         color: grey[600],
@@ -21,6 +19,12 @@ const theme = createMuiTheme({
     MuiInputBase: {
       root: {
         marginBottom: '22px',
+      },
+      input: {
+        color: theme.palette.text.primary,
+      },
+      adornedStart: {
+        color: grey[600],
       },
     },
     MuiFormHelperText: {
@@ -34,7 +38,7 @@ const theme = createMuiTheme({
       variant: 'outlined',
     },
   },
-});
+};
 
 ReactDOM.render(
   <React.StrictMode>
