@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
+import UserProvider from './contexts/UserContext';
 
 let theme = createMuiTheme();
 
@@ -44,9 +45,11 @@ ReactDOM.render(
   <>
     <CssBaseline />
     <ThemeProvider theme={theme}>
-      <Router>
-        <App />
-      </Router>
+      <UserProvider>
+        <Router>
+          <App />
+        </Router>
+      </UserProvider>
     </ThemeProvider>
   </>,
   document.getElementById('root'),
