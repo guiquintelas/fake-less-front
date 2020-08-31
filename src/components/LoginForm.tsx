@@ -11,6 +11,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { initialValues as CreateAccountFormValues } from './CreateAccountForm';
 import TextField from './TextField';
 import LoadingButton from './LoadingButton';
+import { useUser } from '../contexts/UserContext';
 
 const initialValues = {
   username: '',
@@ -30,6 +31,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   const theme = useTheme();
   const history = useHistory();
   const location = useLocation<typeof CreateAccountFormValues>();
+  const { setUser } = useUser();
 
   return (
     <Formik
@@ -37,9 +39,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
       validationSchema={validationSchema}
       onSubmit={async (data) => new Promise((resolve) => {
         setTimeout(() => {
-          console.log(data);
+          setUser(data);
+          history.push('/');
           resolve();
-        }, 2000);
+        }, 1000);
       })}
     >
       {({ resetForm }) => (
