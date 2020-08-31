@@ -41,13 +41,13 @@ theme = {
 };
 
 ReactDOM.render(
-  <React.StrictMode>
+  <>
     <CssBaseline />
     <ThemeProvider theme={theme}>
       <Router>
         <App />
       </Router>
     </ThemeProvider>
-  </React.StrictMode>,
+  </>,
   document.getElementById('root'),
 );
