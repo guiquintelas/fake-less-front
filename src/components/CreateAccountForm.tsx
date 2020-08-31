@@ -30,7 +30,6 @@ type CreateAccountFormProps = {
 };
 
 const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
-  const theme = useTheme();
   const history = useHistory();
 
   return (
@@ -45,47 +44,57 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
       {({ resetForm }) => (
         <Form>
           <Grid container spacing={1} direction="column">
-            <TextField
-              name="username"
-              label="Username"
-              style={{ paddingBottom: theme.spacing(1) }}
-              required
-              InputLabelProps={{ required: false }}
-              icon={<AccountCircle />}
-            />
+            <Grid item>
+              <TextField
+                name="username"
+                label="Username"
+                style={{ width: '100%' }}
+                required
+                InputLabelProps={{ required: false }}
+                icon={<AccountCircle />}
+              />
+            </Grid>
 
-            <TextField
-              name="password"
-              label="Password"
-              type="password"
-              style={{ paddingBottom: theme.spacing(1) }}
-              icon={<Lock />}
-            />
+            <Grid item>
+              <TextField
+                name="password"
+                label="Password"
+                style={{ width: '100%' }}
+                type="password"
+                icon={<Lock />}
+              />
+            </Grid>
 
-            <TextField
-              name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              style={{ paddingBottom: theme.spacing(1) }}
-              icon={<Lock />}
-            />
-          </Grid>
+            <Grid item>
+              <TextField
+                name="confirmPassword"
+                label="Confirm Password"
+                style={{ width: '100%' }}
+                type="password"
+                icon={<Lock />}
+              />
+            </Grid>
 
-          <Grid container justify="flex-end">
-            <Button onClick={() => {
-              resetForm({});
-              history.push('/login');
-            }}
-            >
-              Login
-            </Button>
+            <Grid container item justify="flex-end" spacing={1}>
+              <Grid item>
+                <Button onClick={() => {
+                  resetForm({});
+                  history.push('/login');
+                }}
+                >
+                  Login
+                </Button>
+              </Grid>
 
-            <LoadingButton
-              color="primary"
-              type="submit"
-            >
-              Create Account
-            </LoadingButton>
+              <Grid item>
+                <LoadingButton
+                  color="primary"
+                  type="submit"
+                >
+                  Create Account
+                </LoadingButton>
+              </Grid>
+            </Grid>
           </Grid>
         </Form>
       )}

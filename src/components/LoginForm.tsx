@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { AccountCircle, Lock } from 'mdi-material-ui';
-import { useTheme } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import {
   Formik, Form,
 } from 'formik';
@@ -28,7 +28,6 @@ type LoginFormProps = {
 };
 
 const LoginForm: React.FC<LoginFormProps> = () => {
-  const theme = useTheme();
   const history = useHistory();
   const location = useLocation<typeof CreateAccountFormValues>();
   const { setUser } = useUser();
@@ -48,41 +47,49 @@ const LoginForm: React.FC<LoginFormProps> = () => {
       {({ resetForm }) => (
         <Form>
           <Grid container spacing={1} direction="column">
-            <TextField
-              name="username"
-              label="Username"
-              style={{ paddingBottom: theme.spacing(1) }}
-              required
-              InputLabelProps={{ required: false }}
-              value={location.state?.username}
-              icon={<AccountCircle />}
-            />
+            <Grid item>
+              <TextField
+                name="username"
+                label="Username"
+                required
+                InputLabelProps={{ required: false }}
+                style={{ width: '100%' }}
+                value={location.state?.username}
+                icon={<AccountCircle />}
+              />
+            </Grid>
 
-            <TextField
-              name="password"
-              label="Password"
-              type="password"
-              style={{ paddingBottom: theme.spacing(1) }}
-              value={location.state?.password}
-              icon={<Lock />}
-            />
-          </Grid>
+            <Grid item>
+              <TextField
+                name="password"
+                label="Password"
+                type="password"
+                style={{ width: '100%' }}
+                value={location.state?.password}
+                icon={<Lock />}
+              />
+            </Grid>
 
-          <Grid container justify="flex-end">
-            <Button onClick={() => {
-              resetForm({});
-              history.push('/register');
-            }}
-            >
-              Create Account
-            </Button>
+            <Grid container item justify="flex-end" spacing={1}>
+              <Grid item>
+                <Button onClick={() => {
+                  resetForm({});
+                  history.push('/register');
+                }}
+                >
+                  Create Account
+                </Button>
+              </Grid>
 
-            <LoadingButton
-              color="primary"
-              type="submit"
-            >
-              Login
-            </LoadingButton>
+              <Grid item>
+                <LoadingButton
+                  color="primary"
+                  type="submit"
+                >
+                  Login
+                </LoadingButton>
+              </Grid>
+            </Grid>
           </Grid>
         </Form>
       )}
