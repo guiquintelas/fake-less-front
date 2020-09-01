@@ -3,15 +3,7 @@ import MuiButton, { ButtonProps } from '@material-ui/core/Button';
 import { useFormikContext } from 'formik';
 import { CircularProgress, makeStyles, createStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => createStyles({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  wrapper: {
-    margin: theme.spacing(1),
-    position: 'relative',
-  },
+const useStyles = makeStyles(() => createStyles({
   buttonProgress: {
     position: 'absolute',
     top: '50%',
@@ -29,6 +21,7 @@ const LoadingButton: React.FC<ButtonProps> = ({ disabled, children, ...props }) 
     <MuiButton
       {...props}
       disabled={disabled ?? isSubmitting}
+      style={{ display: 'inline-block' }}
     >
       {isSubmitting
         ? <CircularProgress size={24} className={classes.buttonProgress} />
