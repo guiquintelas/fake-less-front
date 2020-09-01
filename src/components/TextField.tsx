@@ -24,7 +24,7 @@ const TextField: React.FC<TextFieldProps> = (
   // it reflects in formik state
   useEffect(() => {
     setFieldValue(name, value ?? '');
-  }, [value]);
+  }, [name, value, setFieldValue]);
 
   const iconAdornment = icon ? (
     <InputAdornment position="start">
