@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { AccountCircle, Lock } from 'mdi-material-ui';
-import { Box } from '@material-ui/core';
 import {
   Formik, Form,
 } from 'formik';
@@ -23,11 +22,7 @@ const validationSchema = object({
   password: string().required('Fill with your password'),
 });
 
-type LoginFormProps = {
-
-};
-
-const LoginForm: React.FC<LoginFormProps> = () => {
+const LoginForm: React.FC = () => {
   const history = useHistory();
   const location = useLocation<typeof CreateAccountFormValues>();
   const { setUser } = useUserContext();

@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { AccountCircle, Lock } from 'mdi-material-ui';
-import { useTheme } from '@material-ui/core';
 import {
   Formik, Form,
 } from 'formik';
@@ -25,11 +24,7 @@ const validationSchema = Yup.object({
     .required('Please confirm our password!'),
 });
 
-type CreateAccountFormProps = {
-
-};
-
-const CreateAccountForm: React.FC<CreateAccountFormProps> = () => {
+const CreateAccountForm: React.FC = () => {
   const history = useHistory();
 
   return (
