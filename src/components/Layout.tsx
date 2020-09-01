@@ -1,11 +1,13 @@
-import React from 'react';
 import {
-  AppBar, Toolbar, IconButton, makeStyles, Typography, Box, Button, MenuItem,
+  AppBar, Box, Button, Container, Grid, makeStyles, MenuItem, Toolbar, Typography,
 } from '@material-ui/core';
-import { Menu as MenuIcon } from 'mdi-material-ui';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Menu from './Menu';
+import FeedProvider from '../contexts/FeedContext';
 import { useUserContext } from '../contexts/UserContext';
+import Menu from './Menu';
+import NewPostForm from './NewPostForm';
+import PostFeed from './PostFeed';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,10 +30,6 @@ const Layout: React.FC = () => {
     <>
       <AppBar position="relative" style={{ height: 'fit-content' }}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" ria-label="menu">
-            <MenuIcon />
-          </IconButton>
-
           <Typography variant="h6" className={classes.title}>
             Fake Less
           </Typography>
@@ -62,9 +60,30 @@ const Layout: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-      <main>
-        content
-      </main>
+      <Container
+        maxWidth="lg"
+        component="main"
+      >
+        <Box py={3}>
+          <Grid container>
+            <Grid item xs={2}>menu</Grid>
+            <Grid
+              item
+              container
+              direction="column"
+              spacing={2}
+              xs={10}
+            >
+              <Grid item>
+                <FeedProvider>
+                  {user && <NewPostForm />}
+                  <PostFeed />
+                </FeedProvider>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
     </>
   );
 };
