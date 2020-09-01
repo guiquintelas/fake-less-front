@@ -11,7 +11,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { initialValues as CreateAccountFormValues } from './CreateAccountForm';
 import TextField from './TextField';
 import LoadingButton from './LoadingButton';
-import { useUser } from '../contexts/UserContext';
+import { useUserContext } from '../contexts/UserContext';
 
 const initialValues = {
   username: '',
@@ -30,7 +30,7 @@ type LoginFormProps = {
 const LoginForm: React.FC<LoginFormProps> = () => {
   const history = useHistory();
   const location = useLocation<typeof CreateAccountFormValues>();
-  const { setUser } = useUser();
+  const { setUser } = useUserContext();
 
   return (
     <Formik

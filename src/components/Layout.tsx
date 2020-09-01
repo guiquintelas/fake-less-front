@@ -5,7 +5,7 @@ import {
 import { Menu as MenuIcon } from 'mdi-material-ui';
 import { useHistory } from 'react-router-dom';
 import Menu from './Menu';
-import { useUser } from '../contexts/UserContext';
+import { useUserContext } from '../contexts/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const Layout: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { user, setUser } = useUser();
+  const { user, setUser } = useUserContext();
 
   return (
     <>
