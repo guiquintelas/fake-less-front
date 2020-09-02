@@ -1,6 +1,4 @@
-import {
-  Box, Button, InputBase, Paper,
-} from '@material-ui/core';
+import { Box, Button, InputBase, Paper } from '@material-ui/core';
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useFeedContext } from '../contexts/FeedContext';
@@ -43,7 +41,6 @@ const NewPostForm: React.FC = () => {
         </Box>
       </Box>
     </Paper>
-
   );
 };
 

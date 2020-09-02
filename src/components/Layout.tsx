@@ -49,16 +49,17 @@ const Layout: React.FC = () => {
           <Box>
             {user ? (
               <Menu
-                anchor={(
+                anchor={
                   <Button color="inherit" style={{ textTransform: 'none' }}>
                     {user?.username}
                   </Button>
-              )}
+                }
               >
-                <MenuItem onClick={() => {
-                  setUser(undefined);
-                  history.push('/login');
-                }}
+                <MenuItem
+                  onClick={() => {
+                    setUser(undefined);
+                    history.push('/login');
+                  }}
                 >
                   Logout
                 </MenuItem>
@@ -72,29 +73,15 @@ const Layout: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-      <Container
-        maxWidth="lg"
-        component="main"
-      >
+      <Container maxWidth="lg" component="main">
         <Box py={3}>
           <Grid container>
             {showMenu && (
-            <Grid
-              item
-              md={2}
-            >
-              menu
-            </Grid>
+              <Grid item md={2}>
+                menu
+              </Grid>
             )}
-            <Grid
-              item
-              container
-              direction="column"
-              alignItems="center"
-              spacing={2}
-              xs={12}
-              md={8}
-            >
+            <Grid item container direction="column" alignItems="center" spacing={2} xs={12} md={8}>
               <Grid item style={{ width: '100%' }}>
                 <FeedProvider>
                   {user && <NewPostForm />}

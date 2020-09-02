@@ -1,12 +1,10 @@
 import React from 'react';
-import {
-  Paper, Box, Typography, Divider, Button, TextField,
-} from '@material-ui/core';
+import { Paper, Box, Typography, Divider, Button, TextField } from '@material-ui/core';
 import { HeartOutline, Heart } from 'mdi-material-ui';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
 
 export interface PostProps {
-  post: PostType
+  post: PostType;
 }
 
 const Post: React.SFC<PostProps> = ({ post }) => {
@@ -16,19 +14,13 @@ const Post: React.SFC<PostProps> = ({ post }) => {
     <Paper>
       <Box display="flex" flexDirection="column" p={2}>
         <Box>
-          <Typography variant="body1">
-            {post.createdBy}
-          </Typography>
+          <Typography variant="body1">{post.createdBy}</Typography>
 
-          <Typography variant="caption">
-            {post.createdAt.toLocaleString()}
-          </Typography>
+          <Typography variant="caption">{post.createdAt.toLocaleString()}</Typography>
         </Box>
 
         <Box pt={2}>
-          <Typography variant="body2">
-            {post.content}
-          </Typography>
+          <Typography variant="body2">{post.content}</Typography>
         </Box>
 
         <Box my={2}>
