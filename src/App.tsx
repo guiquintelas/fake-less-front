@@ -14,7 +14,7 @@ const Root = styled(Box)({
 });
 
 const App: React.FC = () => (
-  <Root>
+  <Root id="app">
     <Switch>
       <Route path={['/login', '/register']}>
         <Login />
