@@ -1,5 +1,15 @@
 import {
-  AppBar, Box, Button, Container, Grid, makeStyles, MenuItem, Toolbar, Typography,
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Grid,
+  makeStyles,
+  MenuItem,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -24,7 +34,9 @@ const useStyles = makeStyles((theme) => ({
 const Layout: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
+  const theme = useTheme();
   const { user, setUser } = useUserContext();
+  const showMenu = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     <>
@@ -66,15 +78,24 @@ const Layout: React.FC = () => {
       >
         <Box py={3}>
           <Grid container>
-            <Grid item xs={2}>menu</Grid>
+            {showMenu && (
+            <Grid
+              item
+              md={2}
+            >
+              menu
+            </Grid>
+            )}
             <Grid
               item
               container
               direction="column"
+              alignItems="center"
               spacing={2}
-              xs={10}
+              xs={12}
+              md={8}
             >
-              <Grid item>
+              <Grid item style={{ width: '100%' }}>
                 <FeedProvider>
                   {user && <NewPostForm />}
                   <PostFeed />
