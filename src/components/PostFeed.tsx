@@ -1,8 +1,9 @@
 import {
-  Box, Paper, Grid, Typography, CircularProgress,
+  Box, CircularProgress, Grid, Typography,
 } from '@material-ui/core';
 import React, { useEffect, useRef } from 'react';
 import { useFeedContext } from '../contexts/FeedContext';
+import Post from './Post';
 
 const PostFeed: React.FC = () => {
   const { feed, loading, loadMorePosts } = useFeedContext();
@@ -40,25 +41,7 @@ const PostFeed: React.FC = () => {
       >
         {feed.posts.map((post) => (
           <Grid item key={post.id}>
-            <Paper>
-              <Box display="flex" flexDirection="column" p={2}>
-                <Box>
-                  <Typography variant="body1">
-                    {post.createdBy}
-                  </Typography>
-
-                  <Typography variant="caption">
-                    {post.createdAt.toDateString()}
-                  </Typography>
-                </Box>
-
-                <Box pt={2}>
-                  <Typography variant="body2">
-                    {post.content}
-                  </Typography>
-                </Box>
-              </Box>
-            </Paper>
+            <Post post={post} />
           </Grid>
         ))}
 
