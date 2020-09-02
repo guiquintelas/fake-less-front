@@ -2,13 +2,14 @@ import {
   Box, Button, InputBase, Paper,
 } from '@material-ui/core';
 import React, { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import { useFeedContext } from '../contexts/FeedContext';
 import { useUserContext } from '../contexts/UserContext';
 
 const NewPostForm: React.FC = () => {
   const { user } = useUserContext();
   const [post, setPost] = useState('');
-  const { setFeed } = useFeedContext();
+  const { addPost } = useFeedContext();
 
   return (
     <Paper>
@@ -28,17 +29,12 @@ const NewPostForm: React.FC = () => {
             disabled={!post}
             onClick={() => {
               setPost('');
-              setFeed((oldFeed) => ({
-                ...oldFeed,
-                posts: [
-                  {
-                    content: post,
-                    createdAt: new Date(),
-                    createdBy: user!.username,
-                  },
-                  ...oldFeed.posts,
-                ],
-              }));
+              addPost({
+                id: uuid(),
+                content: post,
+                createdAt: new Date(),
+                createdBy: user!.username,
+              });
             }}
           >
             Postar Notícia
