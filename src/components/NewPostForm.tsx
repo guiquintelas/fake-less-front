@@ -33,6 +33,7 @@ const NewPostForm: React.FC = () => {
                 createdAt: new Date(),
                 createdBy: user!.username,
                 liked: false,
+                comments: [],
               });
             }}
           >

@@ -1,12 +1,19 @@
 import React, { createContext, useState, useContext } from 'react';
 import { v4 as uuid } from 'uuid';
 
+export type PostComment = {
+  id: string;
+  content: string;
+  createdBy: string;
+};
+
 export type Post = {
   id: string;
   content: string;
   createdAt: Date;
   createdBy: string;
   liked: boolean;
+  comments: PostComment[];
 };
 
 type Feed = {
@@ -23,33 +30,24 @@ type FeedContextType = {
 
 const defaultFeed: Feed = {
   posts: [
-    {
+    ...[1, 2, 3, 4, 5].map((index) => ({
       id: uuid(),
-      content: 'post 1',
+      content: `post ${index}`,
       createdBy: 'Guilherme Frota',
       createdAt: new Date(),
       liked: false,
-    },
+      comments: [],
+    })),
     {
       id: uuid(),
-      content: 'post 2',
+      content: `post com comentário`,
       createdBy: 'Guilherme Frota',
       createdAt: new Date(),
       liked: false,
-    },
-    {
-      id: uuid(),
-      content: 'post 3',
-      createdBy: 'Guilherme Frota',
-      createdAt: new Date(),
-      liked: false,
-    },
-    {
-      id: uuid(),
-      content: 'post 4',
-      createdBy: 'Guilherme Frota',
-      createdAt: new Date(),
-      liked: false,
+      comments: [
+        { id: uuid(), content: 'um comentario', createdBy: 'fulano' },
+        { id: uuid(), content: 'outro comentario', createdBy: 'fulano' },
+      ],
     },
   ],
 };
@@ -93,41 +91,14 @@ const FeedProvider: React.FC = ({ children }) => {
                 ...oldFeed,
                 posts: [
                   ...oldFeed.posts,
-                  {
+                  ...[1, 2, 3, 4, 5].map((index) => ({
                     id: uuid(),
-                    content: 'post 1',
+                    content: `post ${index}`,
                     createdBy: 'Guilherme Frota',
                     createdAt: new Date(),
                     liked: false,
-                  },
-                  {
-                    id: uuid(),
-                    content: 'post 2',
-                    createdBy: 'Guilherme Frota',
-                    createdAt: new Date(),
-                    liked: false,
-                  },
-                  {
-                    id: uuid(),
-                    content: 'post 3',
-                    createdBy: 'Guilherme Frota',
-                    createdAt: new Date(),
-                    liked: false,
-                  },
-                  {
-                    id: uuid(),
-                    content: 'post 4',
-                    createdBy: 'Guilherme Frota',
-                    createdAt: new Date(),
-                    liked: false,
-                  },
-                  {
-                    id: uuid(),
-                    content: 'post 5',
-                    createdBy: 'Guilherme Frota',
-                    createdAt: new Date(),
-                    liked: false,
-                  },
+                    comments: [],
+                  })),
                 ],
               }));
               setLoading(false);
