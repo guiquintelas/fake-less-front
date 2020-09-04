@@ -28,7 +28,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
             <Divider />
           </Grid>
 
-          <Grid container item wrap="nowrap">
+          <Grid container item wrap="nowrap" alignItems="center">
             <Box pr={2} flexGrow={0}>
               <Button
                 startIcon={post.liked ? <Heart /> : <HeartOutline />}
@@ -52,7 +52,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
           </Grid>
 
           {post.comments.length > 0 && (
-            <Grid item spacing={1} direction="column">
+            <Grid item>
               <Box>
                 <Typography variant="caption">Comentários</Typography>
               </Box>
