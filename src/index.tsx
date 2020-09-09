@@ -6,6 +6,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import UserProvider from './contexts/UserContext';
+import SnackBarProvider from './contexts/SnackBarContext';
 
 let theme = createMuiTheme();
 
@@ -45,11 +46,13 @@ ReactDOM.render(
   <>
     <CssBaseline />
     <ThemeProvider theme={theme}>
-      <UserProvider>
-        <Router>
-          <App />
-        </Router>
-      </UserProvider>
+      <SnackBarProvider>
+        <UserProvider>
+          <Router>
+            <App />
+          </Router>
+        </UserProvider>
+      </SnackBarProvider>
     </ThemeProvider>
   </>,
   document.getElementById('root'),

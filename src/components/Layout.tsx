@@ -18,6 +18,7 @@ import { useUserContext } from '../contexts/UserContext';
 import Menu from './Menu';
 import NewPostForm from './NewPostForm';
 import PostFeed from './PostFeed';
+import { useSnackBarContext } from '../contexts/SnackBarContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,7 @@ const Layout: React.FC = () => {
   const theme = useTheme();
   const { user, setUser } = useUserContext();
   const showMenu = useMediaQuery(theme.breakpoints.up('md'));
+  const { snackBar } = useSnackBarContext();
 
   return (
     <>
@@ -59,6 +61,7 @@ const Layout: React.FC = () => {
                   onClick={() => {
                     setUser(undefined);
                     history.push('/login');
+                    snackBar('Até a proxima! 👋');
                   }}
                 >
                   Logout
