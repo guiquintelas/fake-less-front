@@ -38,6 +38,7 @@ module.exports = {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "react/jsx-wrap-multilines": ["error", {"declaration": false, "assignment": false}],
+    "react/jsx-curly-newline": [0]
   },
   settings: {
     'import/resolver': {
