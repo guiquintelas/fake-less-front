@@ -1,16 +1,16 @@
-import React, {
-  createContext, useState, useContext, useEffect,
-} from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
-type User = undefined | {
-    username: string,
-    password: string,
-};
+type User =
+  | undefined
+  | {
+      username: string;
+      password: string;
+    };
 
 type UserContextType = {
-  user: User,
-  setUser: React.Dispatch<React.SetStateAction<User>>,
-}
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
+};
 
 const USER_STORAGE = 'user';
 
@@ -18,9 +18,7 @@ const loadedJsonUserData = localStorage.getItem(USER_STORAGE);
 let defaultUser: User;
 
 try {
-  defaultUser = loadedJsonUserData
-    ? JSON.parse(loadedJsonUserData)
-    : undefined;
+  defaultUser = loadedJsonUserData ? JSON.parse(loadedJsonUserData) : undefined;
 } catch (_) {
   // if json is corrupted
   defaultUser = undefined;
@@ -44,11 +42,7 @@ const UserProvider: React.FC = ({ children }) => {
     }
   }, [user]);
 
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
 
 export default UserProvider;
