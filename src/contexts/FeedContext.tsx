@@ -26,6 +26,7 @@ type FeedContextType = {
   addPost: (post: Post) => void;
   loadMorePosts: () => Promise<void>;
   toggleLikePost: (id: string) => void;
+  commentOnPost: (id: string, comment: Omit<PostComment, 'id'>) => void;
 };
 
 const defaultFeed: Feed = {
@@ -62,6 +63,9 @@ export const FeedContext = createContext<FeedContextType>({
     throw new Error('state not initialized');
   },
   toggleLikePost: () => {
+    throw new Error('state not initialized');
+  },
+  commentOnPost: () => {
     throw new Error('state not initialized');
   },
 });
@@ -115,6 +119,26 @@ const FeedProvider: React.FC = ({ children }) => {
                 return {
                   ...post,
                   liked: !post.liked,
+                };
+              }
+              return post;
+            }),
+          }));
+        },
+
+        commentOnPost(id, comment) {
+          const commentWithId = {
+            ...comment,
+            id: uuid(),
+          };
+
+          setFeed((oldFeed) => ({
+            ...oldFeed,
+            posts: oldFeed.posts.map((post) => {
+              if (post.id === id) {
+                return {
+                  ...post,
+                  comments: [...post.comments, commentWithId],
                 };
               }
               return post;

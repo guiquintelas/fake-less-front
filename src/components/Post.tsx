@@ -2,6 +2,7 @@ import React from 'react';
 import { Paper, Box, Typography, Divider, Button, TextField, Grid } from '@material-ui/core';
 import { HeartOutline, Heart } from 'mdi-material-ui';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
+import PostNewComment from './PostNewComment';
 
 export interface PostProps {
   post: PostType;
@@ -40,14 +41,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
             </Box>
 
             <Box flexGrow={2}>
-              <TextField
-                size="small"
-                placeholder="Comentar ..."
-                style={{ width: '100%' }}
-                InputProps={{
-                  style: { marginBottom: 0 },
-                }}
-              />
+              <PostNewComment postId={post.id} />
             </Box>
           </Grid>
 
