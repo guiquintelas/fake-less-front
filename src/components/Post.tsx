@@ -1,6 +1,6 @@
+import { Box, Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
+import { Heart, HeartOutline } from 'mdi-material-ui';
 import React from 'react';
-import { Paper, Box, Typography, Divider, Button, TextField, Grid } from '@material-ui/core';
-import { HeartOutline, Heart } from 'mdi-material-ui';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
 import PostNewComment from './PostNewComment';
 
