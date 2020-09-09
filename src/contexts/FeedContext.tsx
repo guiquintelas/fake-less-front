@@ -23,7 +23,7 @@ type Feed = {
 type FeedContextType = {
   feed: Feed;
   loading: Boolean;
-  addPost: (post: Post) => void;
+  addPost: (post: Omit<Post, 'id'>) => void;
   loadMorePosts: () => Promise<void>;
   toggleLikePost: (id: string) => void;
   commentOnPost: (id: string, comment: Omit<PostComment, 'id'>) => void;
@@ -80,10 +80,15 @@ const FeedProvider: React.FC = ({ children }) => {
         feed,
         loading,
 
-        addPost: (post: Post) => {
+        addPost: (post) => {
+          const postWithId = {
+            ...post,
+            id: uuid(),
+          };
+
           setFeed((oldFeed) => ({
             ...oldFeed,
-            posts: [post, ...oldFeed.posts],
+            posts: [postWithId, ...oldFeed.posts],
           }));
         },
 

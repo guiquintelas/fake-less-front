@@ -28,7 +28,6 @@ const NewPostForm: React.FC = () => {
             onClick={() => {
               setPost('');
               addPost({
-                id: uuid(),
                 content: post,
                 createdAt: new Date(),
                 createdBy: user!.username,
