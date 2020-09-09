@@ -2,9 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { AccountCircle, Lock } from 'mdi-material-ui';
-import {
-  Formik, Form,
-} from 'formik';
+import { Formik, Form } from 'formik';
 import { object, string } from 'yup';
 import { useHistory, useLocation } from 'react-router-dom';
 import { initialValues as CreateAccountFormValues } from './CreateAccountForm';
@@ -31,13 +29,15 @@ const LoginForm: React.FC = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={async (data) => new Promise((resolve) => {
-        setTimeout(() => {
-          setUser(data);
-          history.push('/');
-          resolve();
-        }, 1000);
-      })}
+      onSubmit={async (data) =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            setUser(data);
+            history.push('/');
+            resolve();
+          }, 1000);
+        })
+      }
     >
       {({ resetForm }) => (
         <Form>
@@ -67,20 +67,18 @@ const LoginForm: React.FC = () => {
 
             <Grid container item justify="flex-end" spacing={1}>
               <Grid item>
-                <Button onClick={() => {
-                  resetForm({});
-                  history.push('/register');
-                }}
+                <Button
+                  onClick={() => {
+                    resetForm({});
+                    history.push('/register');
+                  }}
                 >
                   Create Account
                 </Button>
               </Grid>
 
               <Grid item>
-                <LoadingButton
-                  color="primary"
-                  type="submit"
-                >
+                <LoadingButton color="primary" type="submit">
                   Login
                 </LoadingButton>
               </Grid>
@@ -89,7 +87,6 @@ const LoginForm: React.FC = () => {
         </Form>
       )}
     </Formik>
-
   );
 };
 

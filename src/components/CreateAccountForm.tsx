@@ -2,9 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { AccountCircle, Lock } from 'mdi-material-ui';
-import {
-  Formik, Form,
-} from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import TextField from './TextField';
@@ -51,13 +49,7 @@ const CreateAccountForm: React.FC = () => {
             </Grid>
 
             <Grid item>
-              <TextField
-                name="password"
-                label="Password"
-                style={{ width: '100%' }}
-                type="password"
-                icon={<Lock />}
-              />
+              <TextField name="password" label="Password" style={{ width: '100%' }} type="password" icon={<Lock />} />
             </Grid>
 
             <Grid item>
@@ -72,20 +64,18 @@ const CreateAccountForm: React.FC = () => {
 
             <Grid container item justify="flex-end" spacing={1}>
               <Grid item>
-                <Button onClick={() => {
-                  resetForm({});
-                  history.push('/login');
-                }}
+                <Button
+                  onClick={() => {
+                    resetForm({});
+                    history.push('/login');
+                  }}
                 >
                   Login
                 </Button>
               </Grid>
 
               <Grid item>
-                <LoadingButton
-                  color="primary"
-                  type="submit"
-                >
+                <LoadingButton color="primary" type="submit">
                   Create Account
                 </LoadingButton>
               </Grid>
@@ -94,7 +84,6 @@ const CreateAccountForm: React.FC = () => {
         </Form>
       )}
     </Formik>
-
   );
 };
 
