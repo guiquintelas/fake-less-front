@@ -9,7 +9,7 @@ type User =
 
 type UserContextType = {
   user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
+  logout: () => void;
   getUserByUsername: (username: string) => User | undefined;
 };
 
@@ -33,6 +33,9 @@ export const UserContext = createContext<UserContextType>({
   getUserByUsername: () => {
     throw new Error('state not initialized');
   },
+  logout: () => {
+    throw new Error('state not initialized');
+  },
 });
 
 const UserProvider: React.FC = ({ children }) => {
@@ -51,7 +54,10 @@ const UserProvider: React.FC = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
-        setUser,
+
+        logout() {
+          setUser(undefined);
+        },
         getUserByUsername(username) {
           return users.filter((el) => el?.username === username)[0];
         },

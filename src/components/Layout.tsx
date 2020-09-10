@@ -36,7 +36,7 @@ const Layout: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
-  const { user, setUser } = useUserContext();
+  const { user, logout } = useUserContext();
   const showMenu = useMediaQuery(theme.breakpoints.up('md'));
   const { snackBar } = useSnackBarContext();
 
@@ -59,7 +59,7 @@ const Layout: React.FC = () => {
               >
                 <MenuItem
                   onClick={() => {
-                    setUser(undefined);
+                    logout();
                     history.push('/login');
                     snackBar('See you next time! Bye bye 👋');
                   }}
