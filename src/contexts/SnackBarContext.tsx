@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState } from 'react';
-import { IconButton, Snackbar } from '@material-ui/core';
+import { IconButton, Snackbar, useTheme } from '@material-ui/core';
 import { Close } from 'mdi-material-ui';
 
+type SnackTypes = 'info' | 'danger';
+
 type SnackBarContextType = {
-  snackBar: (text: string) => void;
+  snackBar: (text: string, type?: SnackTypes) => void;
 };
 
 export const SnackBarContext = createContext<SnackBarContextType>({
@@ -15,13 +17,16 @@ export const SnackBarContext = createContext<SnackBarContextType>({
 const SnackBarProvider: React.FC = ({ children }) => {
   const [isOpen, setOpen] = useState(false);
   const [text, setText] = useState('');
+  const [type, setType] = useState<SnackTypes>('info');
+  const theme = useTheme();
 
   return (
     <SnackBarContext.Provider
       value={{
-        snackBar: (snackText) => {
+        snackBar: (snackText, snackType = 'info') => {
           setOpen(true);
           setText(snackText);
+          setType(snackType);
         },
       }}
     >
@@ -34,6 +39,9 @@ const SnackBarProvider: React.FC = ({ children }) => {
         open={isOpen}
         autoHideDuration={4000}
         message={text}
+        ContentProps={{
+          style: type === 'danger' ? { backgroundColor: theme.palette.error.main } : {},
+        }}
         onClose={(_, reason) => {
           if (reason === 'clickaway') {
             return;
