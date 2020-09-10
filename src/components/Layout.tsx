@@ -61,7 +61,7 @@ const Layout: React.FC = () => {
                   onClick={() => {
                     setUser(undefined);
                     history.push('/login');
-                    snackBar('Até a proxima! 👋');
+                    snackBar('See you next time! Bye bye 👋');
                   }}
                 >
                   Logout
