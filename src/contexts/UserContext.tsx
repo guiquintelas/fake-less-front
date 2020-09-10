@@ -11,6 +11,7 @@ type UserContextType = {
   user: User;
   login: (username: string, password: string) => User | string;
   logout: () => void;
+  register: (username: string, password: string) => User | string;
   getUserByUsername: (username: string) => User | undefined;
 };
 
@@ -39,13 +40,16 @@ export const UserContext = createContext<UserContextType>({
   getUserByUsername: () => {
     throw new Error('state not initialized');
   },
+  register: () => {
+    throw new Error('state not initialized');
+  },
   logout: () => {
     throw new Error('state not initialized');
   },
 });
 
 const UserProvider: React.FC = ({ children }) => {
-  const [users] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>(defaultUsers);
   const [user, setUser] = useState<User>(defaultUser);
 
   useEffect(() => {
@@ -75,6 +79,24 @@ const UserProvider: React.FC = ({ children }) => {
         logout() {
           setUser(undefined);
         },
+
+        register(username, password) {
+          const userAlreadyExists = users.filter((el) => el?.username === username)[0];
+
+          if (userAlreadyExists) {
+            return 'User already exists!';
+          }
+
+          const newUser = {
+            username,
+            password,
+          };
+
+          setUsers((oldUsers) => [...oldUsers, newUser]);
+
+          return newUser;
+        },
+
         getUserByUsername(username) {
           return users.filter((el) => el?.username === username)[0];
         },

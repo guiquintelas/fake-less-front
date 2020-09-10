@@ -7,6 +7,8 @@ import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import TextField from './TextField';
 import LoadingButton from './LoadingButton';
+import { useUserContext } from '../contexts/UserContext';
+import { useSnackBarContext } from '../contexts/SnackBarContext';
 
 export const initialValues = {
   username: '',
@@ -24,14 +26,21 @@ const validationSchema = Yup.object({
 
 const RegisterForm: React.FC = () => {
   const history = useHistory();
+  const { register } = useUserContext();
+  const { snackBar } = useSnackBarContext();
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(data) => {
-        console.log('submit', data);
-        return history.push('/login', data);
+      onSubmit={async (data) => {
+        const result = register(data.username, data.password);
+
+        if (typeof result === 'string') {
+          snackBar(result, 'danger');
+        } else {
+          history.push('/login', data);
+        }
       }}
     >
       {({ resetForm }) => (

@@ -39,7 +39,7 @@ const LoginForm: React.FC = () => {
             if (typeof result !== 'string') {
               history.push('/');
             } else {
-              snackBar(result);
+              snackBar(result, 'danger');
             }
 
             resolve();
