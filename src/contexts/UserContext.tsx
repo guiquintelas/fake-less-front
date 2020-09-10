@@ -10,6 +10,7 @@ type User =
 type UserContextType = {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
+  getUserByUsername: (username: string) => User | undefined;
 };
 
 const USER_STORAGE = 'user';
@@ -29,9 +30,13 @@ export const UserContext = createContext<UserContextType>({
   setUser: () => {
     throw new Error('state not initialized');
   },
+  getUserByUsername: () => {
+    throw new Error('state not initialized');
+  },
 });
 
 const UserProvider: React.FC = ({ children }) => {
+  const [users] = useState<User[]>([]);
   const [user, setUser] = useState<User>(defaultUser);
 
   useEffect(() => {
@@ -42,7 +47,19 @@ const UserProvider: React.FC = ({ children }) => {
     }
   }, [user]);
 
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        getUserByUsername(username) {
+          return users.filter((el) => el?.username === username)[0];
+        },
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export default UserProvider;
