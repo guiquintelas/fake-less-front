@@ -13,6 +13,7 @@ export type Post = {
   createdAt: Date;
   createdBy: string;
   liked: boolean;
+  type?: 'fake' | 'fact';
   comments: PostComment[];
 };
 
@@ -26,6 +27,8 @@ type FeedContextType = {
   addPost: (post: Omit<Post, 'id'>) => void;
   loadMorePosts: () => Promise<void>;
   toggleLikePost: (id: string) => void;
+  toggleFakePost: (id: string) => void;
+  toggleFactPost: (id: string) => void;
   commentOnPost: (id: string, comment: Omit<PostComment, 'id'>) => void;
 };
 
@@ -66,6 +69,12 @@ export const FeedContext = createContext<FeedContextType>({
     throw new Error('state not initialized');
   },
   commentOnPost: () => {
+    throw new Error('state not initialized');
+  },
+  toggleFakePost: () => {
+    throw new Error('state not initialized');
+  },
+  toggleFactPost: () => {
     throw new Error('state not initialized');
   },
 });
@@ -124,6 +133,36 @@ const FeedProvider: React.FC = ({ children }) => {
                 return {
                   ...post,
                   liked: !post.liked,
+                };
+              }
+              return post;
+            }),
+          }));
+        },
+
+        toggleFakePost(id) {
+          setFeed((oldFeed) => ({
+            ...oldFeed,
+            posts: oldFeed.posts.map((post) => {
+              if (post.id === id) {
+                return {
+                  ...post,
+                  type: post.type !== 'fake' ? 'fake' : undefined,
+                };
+              }
+              return post;
+            }),
+          }));
+        },
+
+        toggleFactPost(id) {
+          setFeed((oldFeed) => ({
+            ...oldFeed,
+            posts: oldFeed.posts.map((post) => {
+              if (post.id === id) {
+                return {
+                  ...post,
+                  type: post.type !== 'fact' ? 'fact' : undefined,
                 };
               }
               return post;

@@ -1,5 +1,5 @@
-import { Box, Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
-import { Heart, HeartOutline } from 'mdi-material-ui';
+import { Box, Button, Divider, Grid, Paper, Typography, useTheme } from '@material-ui/core';
+import { Heart, HeartOutline, AlertCircle, AlertCircleOutline, CheckCircle, CheckCircleOutline } from 'mdi-material-ui';
 import React from 'react';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
 import PostNewComment from './PostNewComment';
@@ -9,7 +9,8 @@ export interface PostProps {
 }
 
 const Post: React.SFC<PostProps> = ({ post }) => {
-  const { toggleLikePost } = useFeedContext();
+  const { toggleLikePost, toggleFactPost, toggleFakePost } = useFeedContext();
+  const theme = useTheme();
 
   return (
     <Paper>
@@ -29,20 +30,54 @@ const Post: React.SFC<PostProps> = ({ post }) => {
             <Divider />
           </Grid>
 
-          <Grid container item wrap="nowrap" alignItems="center">
-            <Box pr={2} flexGrow={0}>
+          <Grid item container alignItems="center" spacing={2}>
+            <Grid item>
               <Button
                 startIcon={post.liked ? <Heart /> : <HeartOutline />}
                 onClick={() => toggleLikePost(post.id)}
                 color={post.liked ? 'secondary' : 'default'}
               >
-                {post.liked ? 'descurtir' : 'curtir'}
+                like
               </Button>
-            </Box>
+            </Grid>
 
-            <Box flexGrow={2}>
-              <PostNewComment postId={post.id} />
-            </Box>
+            <Grid item>-</Grid>
+
+            <Grid item>
+              <Button
+                startIcon={post.type === 'fake' ? <AlertCircle /> : <AlertCircleOutline />}
+                onClick={() => toggleFakePost(post.id)}
+                style={
+                  post.type === 'fake'
+                    ? {
+                        color: theme.palette.error.main,
+                      }
+                    : {}
+                }
+              >
+                fake
+              </Button>
+            </Grid>
+
+            <Grid item>
+              <Button
+                startIcon={post.type === 'fact' ? <CheckCircle /> : <CheckCircleOutline />}
+                onClick={() => toggleFactPost(post.id)}
+                style={
+                  post.type === 'fact'
+                    ? {
+                        color: theme.palette.success.main,
+                      }
+                    : {}
+                }
+              >
+                fact
+              </Button>
+            </Grid>
+          </Grid>
+
+          <Grid item>
+            <PostNewComment postId={post.id} />
           </Grid>
 
           {post.comments.length > 0 && (
