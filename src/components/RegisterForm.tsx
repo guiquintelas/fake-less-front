@@ -22,7 +22,7 @@ const validationSchema = Yup.object({
     .required('Please confirm our password!'),
 });
 
-const CreateAccountForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const history = useHistory();
 
   return (
@@ -87,4 +87,4 @@ const CreateAccountForm: React.FC = () => {
   );
 };
 
-export default CreateAccountForm;
+export default RegisterForm;

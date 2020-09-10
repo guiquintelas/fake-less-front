@@ -3,13 +3,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, useTheme } from '@material-ui/core';
-import {
-  Switch,
-  Route,
-  useLocation,
-} from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
-import CreateAccountForm from '../components/CreateAccountForm';
+import RegisterForm from '../components/RegisterForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,19 +26,10 @@ const Login: React.FC = () => {
   const location = useLocation();
 
   return (
-    <Grid
-      container
-      direction="row"
-      justify="center"
-      alignItems="center"
-      className={classes.root}
-    >
+    <Grid container direction="row" justify="center" alignItems="center" className={classes.root}>
       <Paper className={classes.loginPaper}>
         <Grid container spacing={1} direction="column">
-          <Typography
-            color="textSecondary"
-            style={{ paddingBottom: theme.spacing(3) }}
-          >
+          <Typography color="textSecondary" style={{ paddingBottom: theme.spacing(3) }}>
             {location.pathname === '/login' ? 'Login' : 'Create Account'}
           </Typography>
 
@@ -52,7 +39,7 @@ const Login: React.FC = () => {
             </Route>
 
             <Route path="/register">
-              <CreateAccountForm />
+              <RegisterForm />
             </Route>
           </Switch>
         </Grid>
