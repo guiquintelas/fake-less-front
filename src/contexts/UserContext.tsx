@@ -9,9 +9,15 @@ type User =
 
 type UserContextType = {
   user: User;
+  login: (username: string, password: string) => User | string;
   logout: () => void;
   getUserByUsername: (username: string) => User | undefined;
 };
+
+const defaultUsers: User[] = [
+  { username: 'guiquintelas', password: '123' },
+  { username: 'fulano', password: '123' },
+];
 
 const USER_STORAGE = 'user';
 
@@ -27,7 +33,7 @@ try {
 
 export const UserContext = createContext<UserContextType>({
   user: defaultUser,
-  setUser: () => {
+  login: () => {
     throw new Error('state not initialized');
   },
   getUserByUsername: () => {
@@ -54,6 +60,17 @@ const UserProvider: React.FC = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
+
+        login(username, password) {
+          const loggedUser = users.filter((el) => el?.username === username && el.password === password)[0];
+
+          if (!loggedUser) {
+            return 'Invalid credentials!';
+          }
+
+          setUser(loggedUser);
+          return loggedUser;
+        },
 
         logout() {
           setUser(undefined);

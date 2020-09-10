@@ -5,10 +5,11 @@ import { AccountCircle, Lock } from 'mdi-material-ui';
 import { Formik, Form } from 'formik';
 import { object, string } from 'yup';
 import { useHistory, useLocation } from 'react-router-dom';
-import { initialValues as CreateAccountFormValues } from './CreateAccountForm';
+import { initialValues as CreateAccountFormValues } from './RegisterForm';
 import TextField from './TextField';
 import LoadingButton from './LoadingButton';
 import { useUserContext } from '../contexts/UserContext';
+import { useSnackBarContext } from '../contexts/SnackBarContext';
 
 const initialValues = {
   username: '',
@@ -23,7 +24,8 @@ const validationSchema = object({
 const LoginForm: React.FC = () => {
   const history = useHistory();
   const location = useLocation<typeof CreateAccountFormValues>();
-  const { setUser } = useUserContext();
+  const { login } = useUserContext();
+  const { snackBar } = useSnackBarContext();
 
   return (
     <Formik
@@ -32,8 +34,14 @@ const LoginForm: React.FC = () => {
       onSubmit={async (data) =>
         new Promise((resolve) => {
           setTimeout(() => {
-            setUser(data);
-            history.push('/');
+            const result = login(data.username, data.password);
+
+            if (typeof result !== 'string') {
+              history.push('/');
+            } else {
+              snackBar(result);
+            }
+
             resolve();
           }, 1000);
         })
