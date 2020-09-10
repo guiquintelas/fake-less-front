@@ -15,7 +15,7 @@ const NewPostForm: React.FC = () => {
           multiline
           value={post}
           onChange={(e) => setPost(e.target.value)}
-          placeholder={`Olá ${user!.username}! Que notícia te pertuba?`}
+          placeholder={`Hey ${user!.username}! Share something with us!`}
           style={{
             width: '100%',
           }}
@@ -35,7 +35,7 @@ const NewPostForm: React.FC = () => {
               });
             }}
           >
-            Postar Notícia
+            POST
           </Button>
         </Box>
       </Box>

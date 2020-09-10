@@ -28,7 +28,7 @@ const PostFeed: React.FC = () => {
   return (
     <>
       <Box p={1} mt={2}>
-        <Typography variant="overline">Últimas Notícias</Typography>
+        <Typography variant="overline">Latest posts</Typography>
       </Box>
 
       <Grid innerRef={listRef} container spacing={2} direction="column">

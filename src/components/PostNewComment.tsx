@@ -31,7 +31,7 @@ const PostNewComment: React.FC<PostNewCommentProps> = ({ postId }) => {
         <TextField
           ref={textFieldRef}
           size="small"
-          placeholder="Comentar ..."
+          placeholder="Comment ..."
           name="commentText"
           style={{ width: '100%' }}
           InputProps={{

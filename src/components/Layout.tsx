@@ -69,7 +69,7 @@ const Layout: React.FC = () => {
               </Menu>
             ) : (
               <Button color="inherit" onClick={() => history.push('/login')}>
-                Logar
+                Login
               </Button>
             )}
           </Box>
