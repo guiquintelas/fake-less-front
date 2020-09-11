@@ -43,37 +43,39 @@ const Layout: React.FC = () => {
   return (
     <>
       <AppBar position="relative" style={{ height: 'fit-content' }}>
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Fake Less
-          </Typography>
+        <Container maxWidth="lg" style={{ padding: 0 }}>
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              Fake Less
+            </Typography>
 
-          <Box>
-            {user ? (
-              <Menu
-                anchor={
-                  <Button color="inherit" style={{ textTransform: 'none' }}>
-                    {user?.username}
-                  </Button>
-                }
-              >
-                <MenuItem
-                  onClick={() => {
-                    logout();
-                    history.push('/login');
-                    snackBar('See you next time! Bye bye 👋');
-                  }}
+            <Box>
+              {user ? (
+                <Menu
+                  anchor={
+                    <Button color="inherit" style={{ textTransform: 'none' }}>
+                      {user?.username}
+                    </Button>
+                  }
                 >
-                  Logout
-                </MenuItem>
-              </Menu>
-            ) : (
-              <Button color="inherit" onClick={() => history.push('/login')}>
-                Login
-              </Button>
-            )}
-          </Box>
-        </Toolbar>
+                  <MenuItem
+                    onClick={() => {
+                      logout();
+                      history.push('/login');
+                      snackBar('See you next time! Bye bye 👋');
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                </Menu>
+              ) : (
+                <Button color="inherit" onClick={() => history.push('/login')}>
+                  Login
+                </Button>
+              )}
+            </Box>
+          </Toolbar>
+        </Container>
       </AppBar>
 
       <Container maxWidth="lg" component="main">
