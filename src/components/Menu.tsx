@@ -1,12 +1,10 @@
-import React, {
-  cloneElement, Children, isValidElement,
-} from 'react';
+import React, { cloneElement, Children, isValidElement } from 'react';
 import MuiMenu from '@material-ui/core/Menu';
 import { MenuItemProps } from '@material-ui/core/MenuItem';
 
 type MenuProps = {
-  anchor: JSX.Element
-}
+  anchor: JSX.Element;
+};
 
 const Menu: React.FC<MenuProps> = ({ anchor, children }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
