@@ -34,10 +34,18 @@ theme = {
         marginTop: '-19px',
       },
     },
+    MuiPaper: {
+      rounded: {
+        borderRadius: '8px',
+      },
+    },
   },
   props: {
     MuiTextField: {
       variant: 'outlined',
+    },
+    MuiPaper: {
+      elevation: 3,
     },
   },
 };

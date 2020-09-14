@@ -31,7 +31,7 @@ const PostFeed: React.FC = () => {
         <Typography variant="overline">Latest posts</Typography>
       </Box>
 
-      <Grid innerRef={listRef} container spacing={2} direction="column">
+      <Grid innerRef={listRef} container spacing={4} direction="column">
         {feed.posts.map((post) => (
           <Grid item key={post.id}>
             <Post post={post} />
