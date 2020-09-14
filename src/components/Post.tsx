@@ -30,7 +30,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
             <Divider />
           </Grid>
 
-          <Grid item container alignItems="center" spacing={2}>
+          <Grid item container alignItems="baseline" spacing={2}>
             <Grid item>
               <Button
                 startIcon={post.type === 'fake' ? <AlertCircle /> : <AlertCircleOutline />}
@@ -61,10 +61,6 @@ const Post: React.SFC<PostProps> = ({ post }) => {
               >
                 fact
               </Button>
-            </Grid>
-
-            <Grid item>
-              <Typography color="textSecondary">•</Typography>
             </Grid>
 
             <Grid item>
