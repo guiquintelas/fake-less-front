@@ -12,7 +12,6 @@ export type Post = {
   content: string;
   createdAt: Date;
   createdBy: string;
-  liked: boolean;
   type?: 'fake' | 'fact';
   comments: PostComment[];
 };
@@ -26,7 +25,6 @@ type FeedContextType = {
   loading: Boolean;
   addPost: (post: Omit<Post, 'id'>) => void;
   loadMorePosts: () => Promise<void>;
-  toggleLikePost: (id: string) => void;
   toggleFakePost: (id: string) => void;
   toggleFactPost: (id: string) => void;
   commentOnPost: (id: string, comment: Omit<PostComment, 'id'>) => void;
@@ -39,7 +37,6 @@ const defaultFeed: Feed = {
       content: `post ${index}`,
       createdBy: 'Guilherme Frota',
       createdAt: new Date(),
-      liked: false,
       comments: [],
     })),
     {
@@ -47,7 +44,6 @@ const defaultFeed: Feed = {
       content: `post com comentário`,
       createdBy: 'Guilherme Frota',
       createdAt: new Date(),
-      liked: false,
       comments: [
         { id: uuid(), content: 'um comentario', createdBy: 'fulano' },
         { id: uuid(), content: 'outro comentario', createdBy: 'fulano' },
@@ -63,9 +59,6 @@ export const FeedContext = createContext<FeedContextType>({
     throw new Error('you should only use this context inside the provider!');
   },
   loadMorePosts: () => {
-    throw new Error('you should only use this context inside the provider!');
-  },
-  toggleLikePost: () => {
     throw new Error('you should only use this context inside the provider!');
   },
   commentOnPost: () => {
@@ -114,7 +107,6 @@ const FeedProvider: React.FC = ({ children }) => {
                     content: `post ${index}`,
                     createdBy: 'Guilherme Frota',
                     createdAt: new Date(),
-                    liked: false,
                     comments: [],
                   })),
                 ],
@@ -123,21 +115,6 @@ const FeedProvider: React.FC = ({ children }) => {
               res();
             }, 500),
           );
-        },
-
-        toggleLikePost: (id: string) => {
-          setFeed((oldFeed) => ({
-            ...oldFeed,
-            posts: oldFeed.posts.map((post) => {
-              if (post.id === id) {
-                return {
-                  ...post,
-                  liked: !post.liked,
-                };
-              }
-              return post;
-            }),
-          }));
         },
 
         toggleFakePost(id) {

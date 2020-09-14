@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Grid, Paper, Typography, useTheme } from '@material-ui/core';
-import { Heart, HeartOutline, AlertCircle, AlertCircleOutline, CheckCircle, CheckCircleOutline } from 'mdi-material-ui';
+import { AlertCircle, AlertCircleOutline, CheckCircle, CheckCircleOutline } from 'mdi-material-ui';
 import React from 'react';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
 import PostNewComment from './PostNewComment';
@@ -9,7 +9,7 @@ export interface PostProps {
 }
 
 const Post: React.SFC<PostProps> = ({ post }) => {
-  const { toggleLikePost, toggleFactPost, toggleFakePost } = useFeedContext();
+  const { toggleFactPost, toggleFakePost } = useFeedContext();
   const theme = useTheme();
 
   return (
@@ -31,18 +31,6 @@ const Post: React.SFC<PostProps> = ({ post }) => {
           </Grid>
 
           <Grid item container alignItems="center" spacing={2}>
-            <Grid item>
-              <Button
-                startIcon={post.liked ? <Heart /> : <HeartOutline />}
-                onClick={() => toggleLikePost(post.id)}
-                color={post.liked ? 'secondary' : 'default'}
-              >
-                like
-              </Button>
-            </Grid>
-
-            <Grid item>-</Grid>
-
             <Grid item>
               <Button
                 startIcon={post.type === 'fake' ? <AlertCircle /> : <AlertCircleOutline />}
