@@ -34,15 +34,13 @@ const Post: React.SFC<PostProps> = ({ post }) => {
             <Typography variant="body2">{post.content}</Typography>
           </Grid>
 
-          {(user || post.comments.length) > 0 && (
-            <Grid item>
-              <Divider />
-            </Grid>
-          )}
+          <Grid item>
+            <Divider />
+          </Grid>
 
-          {user && (
-            <>
-              <Grid item container alignItems="baseline" spacing={2}>
+          <Grid item container alignItems="baseline" spacing={2}>
+            {user && (
+              <>
                 <Grid item>
                   <Button
                     startIcon={post.type === 'fake' ? <AlertCircle /> : <AlertCircleOutline />}
@@ -74,32 +72,34 @@ const Post: React.SFC<PostProps> = ({ post }) => {
                     fact
                   </Button>
                 </Grid>
+              </>
+            )}
 
-                <Grid item>
-                  {post.factedUsers.length === 0 && post.fakedUsers.length === 0 && (
-                    <Typography variant="caption" color="textSecondary">
-                      Be the first to vote in this post!
-                    </Typography>
-                  )}
+            <Grid item>
+              {post.factedUsers.length === 0 && post.fakedUsers.length === 0 && (
+                <Typography variant="caption" color="textSecondary">
+                  Be the first to vote in this post!
+                </Typography>
+              )}
 
-                  {(post.factedUsers.length !== 0 || post.fakedUsers.length !== 0) && (
-                    <Typography variant="subtitle2" color="textSecondary">
-                      <b>{post.fakedUsers.length}</b>
-                      {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
-                      <b style={{ color: theme.palette.error.main }}>Fake</b>
-                      {' and '}
-                      <b>{post.factedUsers.length}</b>
-                      {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
-                      <b style={{ color: theme.palette.success.main }}>Fact</b>
-                    </Typography>
-                  )}
-                </Grid>
-              </Grid>
+              {(post.factedUsers.length !== 0 || post.fakedUsers.length !== 0) && (
+                <Typography variant="subtitle2" color="textSecondary">
+                  <b>{post.fakedUsers.length}</b>
+                  {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
+                  <b style={{ color: theme.palette.error.main }}>Fake</b>
+                  {' and '}
+                  <b>{post.factedUsers.length}</b>
+                  {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
+                  <b style={{ color: theme.palette.success.main }}>Fact</b>
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
 
-              <Grid item>
-                <PostNewComment postId={post.id} />
-              </Grid>
-            </>
+          {user && (
+            <Grid item>
+              <PostNewComment postId={post.id} />
+            </Grid>
           )}
 
           {post.comments.length > 0 && (
