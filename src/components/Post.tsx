@@ -62,6 +62,30 @@ const Post: React.SFC<PostProps> = ({ post }) => {
                 fact
               </Button>
             </Grid>
+
+            <Grid item>
+              <Typography color="textSecondary">•</Typography>
+            </Grid>
+
+            <Grid item>
+              {post.factedUsers.length === 0 && post.fakedUsers.length === 0 && (
+                <Typography variant="caption" color="textSecondary">
+                  Be the first to vote in this post!
+                </Typography>
+              )}
+
+              {(post.factedUsers.length !== 0 || post.fakedUsers.length !== 0) && (
+                <Typography variant="subtitle2" color="textSecondary">
+                  <b>{post.fakedUsers.length}</b>
+                  {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
+                  <b style={{ color: theme.palette.error.main }}>Fake</b>
+                  {' and '}
+                  <b>{post.factedUsers.length}</b>
+                  {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
+                  <b style={{ color: theme.palette.success.main }}>Fact</b>
+                </Typography>
+              )}
+            </Grid>
           </Grid>
 
           <Grid item>

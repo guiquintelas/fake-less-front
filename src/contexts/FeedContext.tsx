@@ -1,5 +1,19 @@
 import React, { createContext, useState, useContext } from 'react';
 import { v4 as uuid } from 'uuid';
+import { useUserContext, User } from './UserContext';
+
+type ModifyFakedFactedUsers = (
+  post: Post,
+  user: User,
+) => {
+  type: 'fake' | 'fact' | undefined;
+  fakedUsers: PostUser[];
+  factedUsers: PostUser[];
+};
+
+export type PostUser = {
+  name: string;
+};
 
 export type PostComment = {
   id: string;
@@ -14,6 +28,8 @@ export type Post = {
   createdBy: string;
   type?: 'fake' | 'fact';
   comments: PostComment[];
+  fakedUsers: PostUser[];
+  factedUsers: PostUser[];
 };
 
 type Feed = {
@@ -38,6 +54,8 @@ const defaultFeed: Feed = {
       createdBy: 'Guilherme Frota',
       createdAt: new Date(),
       comments: [],
+      fakedUsers: [],
+      factedUsers: [],
     })),
     {
       id: uuid(),
@@ -48,6 +66,8 @@ const defaultFeed: Feed = {
         { id: uuid(), content: 'um comentario', createdBy: 'fulano' },
         { id: uuid(), content: 'outro comentario', createdBy: 'fulano' },
       ],
+      fakedUsers: [{ name: 'user1' }, { name: 'user2' }],
+      factedUsers: [],
     },
   ],
 };
@@ -72,9 +92,34 @@ export const FeedContext = createContext<FeedContextType>({
   },
 });
 
+const addFakedUser: ModifyFakedFactedUsers = (post, user) => {
+  return {
+    type: 'fake',
+    fakedUsers: [...post.fakedUsers, { name: user.name }],
+    factedUsers: post.factedUsers.filter((el) => el.name !== user.name),
+  };
+};
+
+const addFactedUser: ModifyFakedFactedUsers = (post, user) => {
+  return {
+    type: 'fact',
+    fakedUsers: post.fakedUsers.filter((el) => el.name !== user.name),
+    factedUsers: [...post.factedUsers, { name: user.name }],
+  };
+};
+
+const resetFakedFacted: ModifyFakedFactedUsers = (post, user) => {
+  return {
+    type: undefined,
+    fakedUsers: post.fakedUsers.filter((el) => el.name !== user.name),
+    factedUsers: post.factedUsers.filter((el) => el.name !== user.name),
+  };
+};
+
 const FeedProvider: React.FC = ({ children }) => {
   const [feed, setFeed] = useState<Feed>(defaultFeed);
   const [loading, setLoading] = useState<Boolean>(false);
+  const { user } = useUserContext();
 
   return (
     <FeedContext.Provider
@@ -108,6 +153,8 @@ const FeedProvider: React.FC = ({ children }) => {
                     createdBy: 'Guilherme Frota',
                     createdAt: new Date(),
                     comments: [],
+                    fakedUsers: [],
+                    factedUsers: [],
                   })),
                 ],
               }));
@@ -122,9 +169,11 @@ const FeedProvider: React.FC = ({ children }) => {
             ...oldFeed,
             posts: oldFeed.posts.map((post) => {
               if (post.id === id) {
+                const newType = post.type !== 'fake' ? 'fake' : undefined;
+
                 return {
                   ...post,
-                  type: post.type !== 'fake' ? 'fake' : undefined,
+                  ...(newType === 'fake' ? addFakedUser(post, user!) : resetFakedFacted(post, user!)),
                 };
               }
               return post;
@@ -137,9 +186,11 @@ const FeedProvider: React.FC = ({ children }) => {
             ...oldFeed,
             posts: oldFeed.posts.map((post) => {
               if (post.id === id) {
+                const newType = post.type !== 'fact' ? 'fact' : undefined;
+
                 return {
                   ...post,
-                  type: post.type !== 'fact' ? 'fact' : undefined,
+                  ...(newType === 'fact' ? addFactedUser(post, user!) : resetFakedFacted(post, user!)),
                 };
               }
               return post;

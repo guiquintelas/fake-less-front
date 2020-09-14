@@ -31,6 +31,8 @@ const NewPostForm: React.FC = () => {
                 createdAt: new Date(),
                 createdBy: user!.email,
                 comments: [],
+                factedUsers: [],
+                fakedUsers: [],
               });
             }}
           >

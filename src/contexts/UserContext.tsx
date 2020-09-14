@@ -1,31 +1,31 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-type User =
-  | undefined
-  | {
-      email: string;
-      password: string;
-      name?: string;
-      lastName?: string;
-    };
-
-type UserContextType = {
-  user: User;
-  login: (email: string, password: string) => User | string;
-  logout: () => void;
-  register: (email: string, password: string) => User | string;
-  getUserByEmail: (email: string) => User | undefined;
+export type User = {
+  email: string;
+  password: string;
+  name: string;
+  lastName: string;
 };
 
-const defaultUsers: User[] = [
+type ContextUser = undefined | User;
+
+type UserContextType = {
+  user: ContextUser;
+  login: (email: string, password: string) => ContextUser | string;
+  logout: () => void;
+  register: (email: string, password: string) => ContextUser | string;
+  getUserByEmail: (email: string) => ContextUser | undefined;
+};
+
+const defaultUsers: ContextUser[] = [
   { email: 'guiquintelas@gmail.com', password: '123', name: 'Guilherme', lastName: 'Quintelas' },
-  { email: 'fulano@gmail.com', password: '123' },
+  { email: 'fulano@gmail.com', password: '123', name: 'Fulano', lastName: 'Ciclano' },
 ];
 
 const USER_STORAGE = 'user';
 
 const loadedJsonUserData = localStorage.getItem(USER_STORAGE);
-let defaultUser: User;
+let defaultUser: ContextUser;
 
 try {
   defaultUser = loadedJsonUserData ? JSON.parse(loadedJsonUserData) : undefined;
@@ -51,8 +51,8 @@ export const UserContext = createContext<UserContextType>({
 });
 
 const UserProvider: React.FC = ({ children }) => {
-  const [users, setUsers] = useState<User[]>(defaultUsers);
-  const [user, setUser] = useState<User>(defaultUser);
+  const [users, setUsers] = useState<ContextUser[]>(defaultUsers);
+  const [user, setUser] = useState<ContextUser>(defaultUser);
 
   useEffect(() => {
     if (user) {
@@ -92,6 +92,8 @@ const UserProvider: React.FC = ({ children }) => {
           const newUser = {
             email,
             password,
+            name: '',
+            lastName: '',
           };
 
           setUsers((oldUsers) => [...oldUsers, newUser]);
