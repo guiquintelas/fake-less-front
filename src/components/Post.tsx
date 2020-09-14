@@ -3,6 +3,7 @@ import { AlertCircle, AlertCircleOutline, CheckCircle, CheckCircleOutline } from
 import React from 'react';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
 import PostNewComment from './PostNewComment';
+import { useUserContext } from '../contexts/UserContext';
 
 export interface PostProps {
   post: PostType;
@@ -11,6 +12,7 @@ export interface PostProps {
 const Post: React.SFC<PostProps> = ({ post }) => {
   const { toggleFactPost, toggleFakePost } = useFeedContext();
   const theme = useTheme();
+  const { user } = useUserContext();
 
   return (
     <Paper>
@@ -32,67 +34,73 @@ const Post: React.SFC<PostProps> = ({ post }) => {
             <Typography variant="body2">{post.content}</Typography>
           </Grid>
 
-          <Grid item>
-            <Divider />
-          </Grid>
-
-          <Grid item container alignItems="baseline" spacing={2}>
+          {(user || post.comments.length) > 0 && (
             <Grid item>
-              <Button
-                startIcon={post.type === 'fake' ? <AlertCircle /> : <AlertCircleOutline />}
-                onClick={() => toggleFakePost(post.id)}
-                style={
-                  post.type === 'fake'
-                    ? {
-                        color: theme.palette.error.main,
-                      }
-                    : {}
-                }
-              >
-                fake
-              </Button>
+              <Divider />
             </Grid>
+          )}
 
-            <Grid item>
-              <Button
-                startIcon={post.type === 'fact' ? <CheckCircle /> : <CheckCircleOutline />}
-                onClick={() => toggleFactPost(post.id)}
-                style={
-                  post.type === 'fact'
-                    ? {
-                        color: theme.palette.success.main,
-                      }
-                    : {}
-                }
-              >
-                fact
-              </Button>
-            </Grid>
+          {user && (
+            <>
+              <Grid item container alignItems="baseline" spacing={2}>
+                <Grid item>
+                  <Button
+                    startIcon={post.type === 'fake' ? <AlertCircle /> : <AlertCircleOutline />}
+                    onClick={() => toggleFakePost(post.id)}
+                    style={
+                      post.type === 'fake'
+                        ? {
+                            color: theme.palette.error.main,
+                          }
+                        : {}
+                    }
+                  >
+                    fake
+                  </Button>
+                </Grid>
 
-            <Grid item>
-              {post.factedUsers.length === 0 && post.fakedUsers.length === 0 && (
-                <Typography variant="caption" color="textSecondary">
-                  Be the first to vote in this post!
-                </Typography>
-              )}
+                <Grid item>
+                  <Button
+                    startIcon={post.type === 'fact' ? <CheckCircle /> : <CheckCircleOutline />}
+                    onClick={() => toggleFactPost(post.id)}
+                    style={
+                      post.type === 'fact'
+                        ? {
+                            color: theme.palette.success.main,
+                          }
+                        : {}
+                    }
+                  >
+                    fact
+                  </Button>
+                </Grid>
 
-              {(post.factedUsers.length !== 0 || post.fakedUsers.length !== 0) && (
-                <Typography variant="subtitle2" color="textSecondary">
-                  <b>{post.fakedUsers.length}</b>
-                  {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
-                  <b style={{ color: theme.palette.error.main }}>Fake</b>
-                  {' and '}
-                  <b>{post.factedUsers.length}</b>
-                  {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
-                  <b style={{ color: theme.palette.success.main }}>Fact</b>
-                </Typography>
-              )}
-            </Grid>
-          </Grid>
+                <Grid item>
+                  {post.factedUsers.length === 0 && post.fakedUsers.length === 0 && (
+                    <Typography variant="caption" color="textSecondary">
+                      Be the first to vote in this post!
+                    </Typography>
+                  )}
 
-          <Grid item>
-            <PostNewComment postId={post.id} />
-          </Grid>
+                  {(post.factedUsers.length !== 0 || post.fakedUsers.length !== 0) && (
+                    <Typography variant="subtitle2" color="textSecondary">
+                      <b>{post.fakedUsers.length}</b>
+                      {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
+                      <b style={{ color: theme.palette.error.main }}>Fake</b>
+                      {' and '}
+                      <b>{post.factedUsers.length}</b>
+                      {` ${post.fakedUsers.length > 1 ? 'users' : 'user'} voted `}
+                      <b style={{ color: theme.palette.success.main }}>Fact</b>
+                    </Typography>
+                  )}
+                </Grid>
+              </Grid>
+
+              <Grid item>
+                <PostNewComment postId={post.id} />
+              </Grid>
+            </>
+          )}
 
           {post.comments.length > 0 && (
             <Grid item>
