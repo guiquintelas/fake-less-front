@@ -21,7 +21,10 @@ const PostNewComment: React.FC<PostNewCommentProps> = ({ postId }) => {
       onSubmit={async (data, { resetForm }) => {
         commentOnPost(postId, {
           content: data.commentText,
-          createdBy: user!.email,
+          createdBy: {
+            name: user!.name,
+            avatarUrl: user!.avatarUrl,
+          },
         });
         resetForm();
         textFieldRef.current!.focus();

@@ -29,7 +29,10 @@ const NewPostForm: React.FC = () => {
               addPost({
                 content: post,
                 createdAt: new Date(),
-                createdBy: user!.email,
+                createdBy: {
+                  name: user!.name,
+                  avatarUrl: user!.avatarUrl,
+                },
                 comments: [],
                 factedUsers: [],
                 fakedUsers: [],

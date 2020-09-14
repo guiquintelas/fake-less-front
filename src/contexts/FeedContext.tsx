@@ -13,19 +13,30 @@ type ModifyFakedFactedUsers = (
 
 export type PostUser = {
   name: string;
+  avatarUrl: string;
+};
+
+const guilhermeUser = {
+  name: 'Guilherme',
+  avatarUrl: 'https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4',
+};
+
+const samelUser = {
+  name: 'Smael',
+  avatarUrl: 'https://avatars2.githubusercontent.com/u/36681917?s=460&u=4fcf73a31535597993452e5c6afdd3cf9ef67936&v=4',
 };
 
 export type PostComment = {
   id: string;
   content: string;
-  createdBy: string;
+  createdBy: PostUser;
 };
 
 export type Post = {
   id: string;
   content: string;
   createdAt: Date;
-  createdBy: string;
+  createdBy: PostUser;
   type?: 'fake' | 'fact';
   comments: PostComment[];
   fakedUsers: PostUser[];
@@ -48,27 +59,27 @@ type FeedContextType = {
 
 const defaultFeed: Feed = {
   posts: [
+    {
+      id: uuid(),
+      content: `post com comentário`,
+      createdBy: guilhermeUser,
+      createdAt: new Date(),
+      comments: [
+        { id: uuid(), content: 'um comentario', createdBy: guilhermeUser },
+        { id: uuid(), content: 'outro comentario', createdBy: samelUser },
+      ],
+      fakedUsers: [guilhermeUser, samelUser],
+      factedUsers: [],
+    },
     ...[1, 2, 3, 4, 5].map((index) => ({
       id: uuid(),
       content: `post ${index}`,
-      createdBy: 'Guilherme Frota',
+      createdBy: guilhermeUser,
       createdAt: new Date(),
       comments: [],
       fakedUsers: [],
       factedUsers: [],
     })),
-    {
-      id: uuid(),
-      content: `post com comentário`,
-      createdBy: 'Guilherme Frota',
-      createdAt: new Date(),
-      comments: [
-        { id: uuid(), content: 'um comentario', createdBy: 'fulano' },
-        { id: uuid(), content: 'outro comentario', createdBy: 'fulano' },
-      ],
-      fakedUsers: [{ name: 'user1' }, { name: 'user2' }],
-      factedUsers: [],
-    },
   ],
 };
 
@@ -95,7 +106,7 @@ export const FeedContext = createContext<FeedContextType>({
 const addFakedUser: ModifyFakedFactedUsers = (post, user) => {
   return {
     type: 'fake',
-    fakedUsers: [...post.fakedUsers, { name: user.name }],
+    fakedUsers: [...post.fakedUsers, { name: user.name, avatarUrl: user.avatarUrl }],
     factedUsers: post.factedUsers.filter((el) => el.name !== user.name),
   };
 };
@@ -104,7 +115,7 @@ const addFactedUser: ModifyFakedFactedUsers = (post, user) => {
   return {
     type: 'fact',
     fakedUsers: post.fakedUsers.filter((el) => el.name !== user.name),
-    factedUsers: [...post.factedUsers, { name: user.name }],
+    factedUsers: [...post.factedUsers, { name: user.name, avatarUrl: user.avatarUrl }],
   };
 };
 
@@ -150,7 +161,7 @@ const FeedProvider: React.FC = ({ children }) => {
                   ...[1, 2, 3, 4, 5].map((index) => ({
                     id: uuid(),
                     content: `post ${index}`,
-                    createdBy: 'Guilherme Frota',
+                    createdBy: guilhermeUser,
                     createdAt: new Date(),
                     comments: [],
                     fakedUsers: [],

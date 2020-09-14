@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 export type User = {
+  avatarUrl: string;
   email: string;
   password: string;
   name: string;
@@ -18,8 +19,14 @@ type UserContextType = {
 };
 
 const defaultUsers: ContextUser[] = [
-  { email: 'guiquintelas@gmail.com', password: '123', name: 'Guilherme', lastName: 'Quintelas' },
-  { email: 'fulano@gmail.com', password: '123', name: 'Fulano', lastName: 'Ciclano' },
+  {
+    email: 'guiquintelas@gmail.com',
+    password: '123',
+    name: 'Guilherme',
+    lastName: 'Quintelas',
+    avatarUrl: 'https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4',
+  },
+  { email: 'fulano@gmail.com', password: '123', name: 'Fulano', lastName: 'Ciclano', avatarUrl: '' },
 ];
 
 const USER_STORAGE = 'user';
@@ -94,6 +101,7 @@ const UserProvider: React.FC = ({ children }) => {
             password,
             name: '',
             lastName: '',
+            avatarUrl: '',
           };
 
           setUsers((oldUsers) => [...oldUsers, newUser]);

@@ -14,6 +14,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Avatar,
 } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -58,8 +59,12 @@ const Layout: React.FC = () => {
               {user ? (
                 <Menu
                   anchor={
-                    <Button color="inherit" style={{ textTransform: 'none' }}>
-                      {user?.email}
+                    <Button
+                      startIcon={<Avatar style={{ width: 25, height: 25 }} alt={user.name} src={user.avatarUrl} />}
+                      color="inherit"
+                      style={{ textTransform: 'none' }}
+                    >
+                      {user.name}
                     </Button>
                   }
                 >

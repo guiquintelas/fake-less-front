@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Paper, Typography, useTheme } from '@material-ui/core';
+import { Box, Button, Divider, Grid, Paper, Typography, useTheme, Avatar } from '@material-ui/core';
 import { AlertCircle, AlertCircleOutline, CheckCircle, CheckCircleOutline } from 'mdi-material-ui';
 import React from 'react';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
@@ -16,10 +16,16 @@ const Post: React.SFC<PostProps> = ({ post }) => {
     <Paper>
       <Box p={2}>
         <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <Typography variant="body1">{post.createdBy}</Typography>
+          <Grid container item spacing={2} alignItems="center">
+            <Grid item>
+              <Avatar alt={post.createdBy.name} src={post.createdBy.avatarUrl} />
+            </Grid>
 
-            <Typography variant="caption">{post.createdAt.toLocaleString()}</Typography>
+            <Grid item>
+              <Typography variant="body1">{post.createdBy.name}</Typography>
+
+              <Typography variant="caption">{post.createdAt.toLocaleString()}</Typography>
+            </Grid>
           </Grid>
 
           <Grid item>
@@ -90,16 +96,24 @@ const Post: React.SFC<PostProps> = ({ post }) => {
 
           {post.comments.length > 0 && (
             <Grid item>
-              <Box>
+              <Box pb={1}>
                 <Typography variant="caption">Comentários</Typography>
               </Box>
 
               {post.comments.map((comment) => (
-                <Box key={comment.id} display="flex" alignItems="center">
+                <Box key={comment.id} display="flex" alignItems="center" pb={1}>
                   <Box pr={1} flexGrow={0}>
-                    <Typography variant="subtitle2">{comment.createdBy}</Typography>
+                    <Avatar
+                      style={{ width: 25, height: 25 }}
+                      alt={comment.createdBy.name}
+                      src={comment.createdBy.avatarUrl}
+                    />
                   </Box>
-                  <Box flexGrow={1}>
+
+                  <Box pr={1} flexGrow={0} display="flex" alignItems="baseline">
+                    <Box pr={1}>
+                      <Typography variant="subtitle2">{comment.createdBy.name}</Typography>
+                    </Box>
                     <Typography variant="body2">{comment.content}</Typography>
                   </Box>
                 </Box>
