@@ -3,21 +3,23 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 type User =
   | undefined
   | {
-      username: string;
+      email: string;
       password: string;
+      name?: string;
+      lastName?: string;
     };
 
 type UserContextType = {
   user: User;
-  login: (username: string, password: string) => User | string;
+  login: (email: string, password: string) => User | string;
   logout: () => void;
-  register: (username: string, password: string) => User | string;
-  getUserByUsername: (username: string) => User | undefined;
+  register: (email: string, password: string) => User | string;
+  getUserByEmail: (email: string) => User | undefined;
 };
 
 const defaultUsers: User[] = [
-  { username: 'guiquintelas', password: '123' },
-  { username: 'fulano', password: '123' },
+  { email: 'guiquintelas@gmail.com', password: '123', name: 'Guilherme', lastName: 'Quintelas' },
+  { email: 'fulano@gmail.com', password: '123' },
 ];
 
 const USER_STORAGE = 'user';
@@ -37,7 +39,7 @@ export const UserContext = createContext<UserContextType>({
   login: () => {
     throw new Error('you should only use this context inside the provider!');
   },
-  getUserByUsername: () => {
+  getUserByEmail: () => {
     throw new Error('you should only use this context inside the provider!');
   },
   register: () => {
@@ -65,8 +67,8 @@ const UserProvider: React.FC = ({ children }) => {
       value={{
         user,
 
-        login(username, password) {
-          const loggedUser = users.filter((el) => el?.username === username && el.password === password)[0];
+        login(email, password) {
+          const loggedUser = users.filter((el) => el?.email === email && el.password === password)[0];
 
           if (!loggedUser) {
             return 'Invalid credentials!';
@@ -80,15 +82,15 @@ const UserProvider: React.FC = ({ children }) => {
           setUser(undefined);
         },
 
-        register(username, password) {
-          const userAlreadyExists = users.filter((el) => el?.username === username)[0];
+        register(email, password) {
+          const userAlreadyExists = users.filter((el) => el?.email === email)[0];
 
           if (userAlreadyExists) {
             return 'User already exists!';
           }
 
           const newUser = {
-            username,
+            email,
             password,
           };
 
@@ -97,8 +99,8 @@ const UserProvider: React.FC = ({ children }) => {
           return newUser;
         },
 
-        getUserByUsername(username) {
-          return users.filter((el) => el?.username === username)[0];
+        getUserByEmail(email) {
+          return users.filter((el) => el?.email === email)[0];
         },
       }}
     >

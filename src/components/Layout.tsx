@@ -59,7 +59,7 @@ const Layout: React.FC = () => {
                 <Menu
                   anchor={
                     <Button color="inherit" style={{ textTransform: 'none' }}>
-                      {user?.username}
+                      {user?.email}
                     </Button>
                   }
                 >

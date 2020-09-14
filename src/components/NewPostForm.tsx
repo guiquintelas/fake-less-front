@@ -15,7 +15,7 @@ const NewPostForm: React.FC = () => {
           multiline
           value={post}
           onChange={(e) => setPost(e.target.value)}
-          placeholder={`Hey ${user!.username}! Share something with us!`}
+          placeholder={`Hey ${user!.name ?? user!.email}! Share something with us!`}
           style={{
             width: '100%',
           }}
@@ -29,8 +29,7 @@ const NewPostForm: React.FC = () => {
               addPost({
                 content: post,
                 createdAt: new Date(),
-                createdBy: user!.username,
-                liked: false,
+                createdBy: user!.email,
                 comments: [],
               });
             }}

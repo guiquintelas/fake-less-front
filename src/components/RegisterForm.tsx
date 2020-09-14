@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { AccountCircle, Lock } from 'mdi-material-ui';
+import { Email, Lock } from 'mdi-material-ui';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
@@ -11,13 +11,13 @@ import { useUserContext } from '../contexts/UserContext';
 import { useSnackBarContext } from '../contexts/SnackBarContext';
 
 export const initialValues = {
-  username: '',
+  email: '',
   password: '',
   confirmPassword: '',
 };
 
 const validationSchema = Yup.object({
-  username: Yup.string().required('Fill with your username!'),
+  email: Yup.string().email().required('Fill with your email!'),
   password: Yup.string().required('Fill with your password'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], "Passwords don't match")
@@ -34,7 +34,7 @@ const RegisterForm: React.FC = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (data) => {
-        const result = register(data.username, data.password);
+        const result = register(data.email, data.password);
 
         if (typeof result === 'string') {
           snackBar(result, 'danger');
@@ -48,12 +48,12 @@ const RegisterForm: React.FC = () => {
           <Grid container spacing={1} direction="column">
             <Grid item>
               <TextField
-                name="username"
-                label="Username"
+                name="email"
+                label="E-mail"
                 style={{ width: '100%' }}
                 required
                 InputLabelProps={{ required: false }}
-                icon={<AccountCircle />}
+                icon={<Email />}
               />
             </Grid>
 
