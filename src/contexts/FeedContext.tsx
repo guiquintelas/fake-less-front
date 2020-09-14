@@ -60,22 +60,22 @@ export const FeedContext = createContext<FeedContextType>({
   feed: defaultFeed,
   loading: false,
   addPost: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
   loadMorePosts: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
   toggleLikePost: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
   commentOnPost: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
   toggleFakePost: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
   toggleFactPost: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
 });
 

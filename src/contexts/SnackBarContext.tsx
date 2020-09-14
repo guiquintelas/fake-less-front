@@ -10,7 +10,7 @@ type SnackBarContextType = {
 
 export const SnackBarContext = createContext<SnackBarContextType>({
   snackBar: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
 });
 

@@ -35,16 +35,16 @@ try {
 export const UserContext = createContext<UserContextType>({
   user: defaultUser,
   login: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
   getUserByUsername: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
   register: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
   logout: () => {
-    throw new Error('state not initialized');
+    throw new Error('you should only use this context inside the provider!');
   },
 });
 
