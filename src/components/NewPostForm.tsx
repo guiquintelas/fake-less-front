@@ -10,7 +10,7 @@ const NewPostForm: React.FC = () => {
 
   return (
     <Paper>
-      <Box p={2}>
+      <Box p={2} mb={2}>
         <InputBase
           multiline
           value={post}

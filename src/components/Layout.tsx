@@ -10,9 +10,14 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { AccountCircle } from 'mdi-material-ui';
 import FeedProvider from '../contexts/FeedContext';
 import { useUserContext } from '../contexts/UserContext';
 import Menu from './Menu';
@@ -83,7 +88,16 @@ const Layout: React.FC = () => {
           <Grid container>
             {showMenu && (
               <Grid item md={2}>
-                menu
+                <List component="nav" dense>
+                  {user && (
+                    <ListItem button onClick={() => console.log('click')}>
+                      <ListItemIcon>
+                        <AccountCircle />
+                      </ListItemIcon>
+                      <ListItemText primary="Profile" />
+                    </ListItem>
+                  )}
+                </List>
               </Grid>
             )}
             <Grid item container direction="column" alignItems="center" spacing={2} xs={12} md={8}>

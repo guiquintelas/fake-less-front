@@ -27,7 +27,7 @@ const PostFeed: React.FC = () => {
 
   return (
     <>
-      <Box p={1} mt={2}>
+      <Box p={1}>
         <Typography variant="overline">Latest posts</Typography>
       </Box>
 
