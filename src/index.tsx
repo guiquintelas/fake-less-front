@@ -30,6 +30,11 @@ theme = {
         color: grey[600],
       },
     },
+    MuiOutlinedInput: {
+      root: {
+        borderRadius: '8px',
+      },
+    },
     MuiFormHelperText: {
       root: {
         marginTop: '-19px',
@@ -57,11 +62,11 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <SnackBarProvider>
         <ConfirmProvider>
-        <UserProvider>
-          <Router>
-            <App />
-          </Router>
-        </UserProvider>
+          <UserProvider>
+            <Router>
+              <App />
+            </Router>
+          </UserProvider>
         </ConfirmProvider>
       </SnackBarProvider>
     </ThemeProvider>
