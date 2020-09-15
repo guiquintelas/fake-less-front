@@ -6,9 +6,10 @@ import TextField from './TextField';
 
 export type PostNewCommentProps = {
   postId: string;
+  disabled: boolean;
 };
 
-const PostNewComment: React.FC<PostNewCommentProps> = ({ postId }) => {
+const PostNewComment: React.FC<PostNewCommentProps> = ({ postId, disabled }) => {
   const { commentOnPost } = useFeedContext();
   const { user } = useUserContext();
   const textFieldRef = useRef<HTMLInputElement>(null);
@@ -40,6 +41,7 @@ const PostNewComment: React.FC<PostNewCommentProps> = ({ postId }) => {
           InputProps={{
             style: { marginBottom: 0 },
           }}
+          disabled={disabled}
         />
       </Form>
     </Formik>
