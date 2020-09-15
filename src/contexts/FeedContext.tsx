@@ -52,6 +52,7 @@ type FeedContextType = {
   loading: Boolean;
   addPost: (post: Omit<Post, 'id'>) => void;
   deletePost: (id: string) => void;
+  updatePostContent: (id: string, content: string) => void;
   loadMorePosts: () => Promise<void>;
   toggleFakePost: (id: string) => void;
   toggleFactPost: (id: string) => void;
@@ -103,6 +104,9 @@ export const FeedContext = createContext<FeedContextType>({
     throw new Error('you should only use this context inside the provider!');
   },
   deletePost: () => {
+    throw new Error('you should only use this context inside the provider!');
+  },
+  updatePostContent: () => {
     throw new Error('you should only use this context inside the provider!');
   },
 });
@@ -233,6 +237,21 @@ const FeedProvider: React.FC = ({ children }) => {
                 return {
                   ...post,
                   comments: [...post.comments, commentWithId],
+                };
+              }
+              return post;
+            }),
+          }));
+        },
+
+        updatePostContent(id, content) {
+          setFeed((oldFeed) => ({
+            ...oldFeed,
+            posts: oldFeed.posts.map((post) => {
+              if (post.id === id) {
+                return {
+                  ...post,
+                  content,
                 };
               }
               return post;

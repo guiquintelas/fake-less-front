@@ -1,6 +1,27 @@
-import { Box, Button, Divider, Grid, Paper, Typography, useTheme, Avatar, IconButton } from '@material-ui/core';
-import { AlertCircle, AlertCircleOutline, CheckCircle, CheckCircleOutline, Delete, Pencil } from 'mdi-material-ui';
-import React from 'react';
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Paper,
+  Typography,
+  useTheme,
+  Avatar,
+  IconButton,
+  Tooltip,
+  InputBase,
+} from '@material-ui/core';
+import {
+  AlertCircle,
+  AlertCircleOutline,
+  CheckCircle,
+  CheckCircleOutline,
+  Delete,
+  Pencil,
+  Close,
+  Check,
+} from 'mdi-material-ui';
+import React, { useState } from 'react';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
 import PostNewComment from './PostNewComment';
 import { useUserContext } from '../contexts/UserContext';
@@ -12,7 +33,10 @@ export interface PostProps {
 }
 
 const Post: React.SFC<PostProps> = ({ post }) => {
-  const { toggleFactPost, toggleFakePost, deletePost } = useFeedContext();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [updatedContent, setContent] = useState(post.content);
+
+  const { toggleFactPost, toggleFakePost, deletePost, updatePostContent } = useFeedContext();
   const theme = useTheme();
   const { user } = useUserContext();
   const { confirm } = useConfirmContext();
@@ -36,35 +60,94 @@ const Post: React.SFC<PostProps> = ({ post }) => {
 
               {post.createdBy.name === user?.name && (
                 <Box flex={0} display="flex" style={{ marginBottom: 'auto' }}>
-                  <Box pr={1}>
-                    <IconButton size="small" aria-label="update">
-                      <Pencil fontSize="small" />
-                    </IconButton>
-                  </Box>
+                  {!isUpdating ? (
+                    <>
+                      <Box pr={1}>
+                        <Tooltip title="Update Post" aria-label="update post">
+                          <IconButton size="small" aria-label="update" onClick={() => setIsUpdating(true)}>
+                            <Pencil fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
 
-                  <IconButton
-                    onClick={() => {
-                      confirm({
-                        title: 'Attention!',
-                        content: 'Do you confirm deleting this post?',
-                        onOk() {
-                          deletePost(post.id);
-                          snackBar('Post deleted successfully!');
-                        },
-                      });
-                    }}
-                    size="small"
-                    aria-label="delete"
-                  >
-                    <Delete fontSize="small" />
-                  </IconButton>
+                      <Tooltip title="Delete Post" aria-label="delete post">
+                        <IconButton
+                          onClick={() => {
+                            confirm({
+                              title: 'Attention!',
+                              content: 'Do you confirm deleting this post?',
+                              onOk() {
+                                deletePost(post.id);
+                                snackBar('Post deleted successfully!');
+                              },
+                            });
+                          }}
+                          size="small"
+                          aria-label="delete"
+                        >
+                          <Delete fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </>
+                  ) : (
+                    <>
+                      <Box pr={1}>
+                        <Tooltip title="Cancel" aria-label="cancel">
+                          <IconButton size="small" aria-label="cancel" onClick={() => setIsUpdating(false)}>
+                            <Close fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+
+                      <Tooltip title="Save" aria-label="save">
+                        <IconButton
+                          onClick={() => {
+                            confirm({
+                              title: 'Attention!',
+                              content: 'Do you confirm saving this changes?',
+                              onOk() {
+                                updatePostContent(post.id, updatedContent);
+                                setIsUpdating(false);
+                                snackBar('Post updated successfully!');
+                              },
+                            });
+                          }}
+                          size="small"
+                          aria-label="save"
+                        >
+                          <Check fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </>
+                  )}
                 </Box>
               )}
             </Box>
           </Grid>
 
           <Grid item>
-            <Typography variant="body2">{post.content}</Typography>
+            {!isUpdating ? (
+              <Typography variant="body2" component="pre">
+                {post.content}
+              </Typography>
+            ) : (
+              <InputBase
+                autoFocus
+                style={{ margin: 0, width: '100%', padding: 0 }}
+                multiline
+                onChange={(e) => setContent(e.target.value)}
+                inputProps={{
+                  style: {
+                    fontSize: '0.875rem',
+                    fontWeight: 400,
+                    lineHeight: 1.43,
+                    letterSpacing: '0.01071em',
+                    padding: 0,
+                  },
+                }}
+                value={updatedContent}
+              />
+            )}
           </Grid>
 
           <Grid item>
@@ -78,6 +161,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
                   <Button
                     startIcon={post.type === 'fake' ? <AlertCircle /> : <AlertCircleOutline />}
                     onClick={() => toggleFakePost(post.id)}
+                    disabled={isUpdating}
                     style={
                       post.type === 'fake'
                         ? {
@@ -94,6 +178,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
                   <Button
                     startIcon={post.type === 'fact' ? <CheckCircle /> : <CheckCircleOutline />}
                     onClick={() => toggleFactPost(post.id)}
+                    disabled={isUpdating}
                     style={
                       post.type === 'fact'
                         ? {
@@ -131,7 +216,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
 
           {user && (
             <Grid item>
-              <PostNewComment postId={post.id} />
+              <PostNewComment disabled={isUpdating} postId={post.id} />
             </Grid>
           )}
 
