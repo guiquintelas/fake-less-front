@@ -22,7 +22,7 @@ const guilhermeUser = {
 };
 
 const samelUser = {
-  name: 'Smael',
+  name: 'Samel',
   avatarUrl: 'https://avatars2.githubusercontent.com/u/36681917?s=460&u=4fcf73a31535597993452e5c6afdd3cf9ef67936&v=4',
 };
 
@@ -51,6 +51,7 @@ type FeedContextType = {
   feed: Feed;
   loading: Boolean;
   addPost: (post: Omit<Post, 'id'>) => void;
+  deletePost: (id: string) => void;
   loadMorePosts: () => Promise<void>;
   toggleFakePost: (id: string) => void;
   toggleFactPost: (id: string) => void;
@@ -62,7 +63,7 @@ const defaultFeed: Feed = {
     {
       id: uuid(),
       content: `post com comentário`,
-      createdBy: guilhermeUser,
+      createdBy: samelUser,
       createdAt: new Date(),
       comments: [
         { id: uuid(), content: 'um comentario', createdBy: guilhermeUser },
@@ -99,6 +100,9 @@ export const FeedContext = createContext<FeedContextType>({
     throw new Error('you should only use this context inside the provider!');
   },
   toggleFactPost: () => {
+    throw new Error('you should only use this context inside the provider!');
+  },
+  deletePost: () => {
     throw new Error('you should only use this context inside the provider!');
   },
 });
@@ -147,6 +151,13 @@ const FeedProvider: React.FC = ({ children }) => {
           setFeed((oldFeed) => ({
             ...oldFeed,
             posts: [postWithId, ...oldFeed.posts],
+          }));
+        },
+
+        deletePost(id) {
+          setFeed((oldFeed) => ({
+            ...oldFeed,
+            posts: oldFeed.posts.filter((el) => el.id !== id),
           }));
         },
 

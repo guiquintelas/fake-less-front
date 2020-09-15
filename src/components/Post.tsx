@@ -1,33 +1,66 @@
-import { Box, Button, Divider, Grid, Paper, Typography, useTheme, Avatar } from '@material-ui/core';
-import { AlertCircle, AlertCircleOutline, CheckCircle, CheckCircleOutline } from 'mdi-material-ui';
+import { Box, Button, Divider, Grid, Paper, Typography, useTheme, Avatar, IconButton } from '@material-ui/core';
+import { AlertCircle, AlertCircleOutline, CheckCircle, CheckCircleOutline, Delete, Pencil } from 'mdi-material-ui';
 import React from 'react';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
 import PostNewComment from './PostNewComment';
 import { useUserContext } from '../contexts/UserContext';
+import { useConfirmContext } from '../contexts/ConfirmContext';
+import { useSnackBarContext } from '../contexts/SnackBarContext';
 
 export interface PostProps {
   post: PostType;
 }
 
 const Post: React.SFC<PostProps> = ({ post }) => {
-  const { toggleFactPost, toggleFakePost } = useFeedContext();
+  const { toggleFactPost, toggleFakePost, deletePost } = useFeedContext();
   const theme = useTheme();
   const { user } = useUserContext();
+  const { confirm } = useConfirmContext();
+  const { snackBar } = useSnackBarContext();
 
   return (
     <Paper>
       <Box p={2}>
         <Grid container direction="column" spacing={2}>
-          <Grid container item spacing={2} alignItems="center">
-            <Grid item>
-              <Avatar alt={post.createdBy.name} src={post.createdBy.avatarUrl} />
-            </Grid>
+          <Grid item>
+            <Box display="flex" alignItems="center">
+              <Box flex={0} pr={2}>
+                <Avatar alt={post.createdBy.name} src={post.createdBy.avatarUrl} />
+              </Box>
 
-            <Grid item>
-              <Typography variant="body1">{post.createdBy.name}</Typography>
+              <Box flex={1}>
+                <Typography variant="body1">{post.createdBy.name}</Typography>
 
-              <Typography variant="caption">{post.createdAt.toLocaleString()}</Typography>
-            </Grid>
+                <Typography variant="caption">{post.createdAt.toLocaleString()}</Typography>
+              </Box>
+
+              {post.createdBy.name === user?.name && (
+                <Box flex={0} display="flex" style={{ marginBottom: 'auto' }}>
+                  <Box pr={1}>
+                    <IconButton size="small" aria-label="update">
+                      <Pencil fontSize="small" />
+                    </IconButton>
+                  </Box>
+
+                  <IconButton
+                    onClick={() => {
+                      confirm({
+                        title: 'Attention!',
+                        content: 'Do you confirm deleting this post?',
+                        onOk() {
+                          deletePost(post.id);
+                          snackBar('Post deleted successfully!');
+                        },
+                      });
+                    }}
+                    size="small"
+                    aria-label="delete"
+                  >
+                    <Delete fontSize="small" />
+                  </IconButton>
+                </Box>
+              )}
+            </Box>
           </Grid>
 
           <Grid item>
