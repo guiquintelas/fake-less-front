@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import UserProvider from './contexts/UserContext';
 import SnackBarProvider from './contexts/SnackBarContext';
+import ConfirmProvider from './contexts/ConfirmContext';
 
 let theme = createMuiTheme();
 
@@ -55,11 +56,13 @@ ReactDOM.render(
     <CssBaseline />
     <ThemeProvider theme={theme}>
       <SnackBarProvider>
+        <ConfirmProvider>
         <UserProvider>
           <Router>
             <App />
           </Router>
         </UserProvider>
+        </ConfirmProvider>
       </SnackBarProvider>
     </ThemeProvider>
   </>,
