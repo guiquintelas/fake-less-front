@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Container,
@@ -10,21 +11,16 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Avatar,
 } from '@material-ui/core';
+import { AccountCircle } from 'mdi-material-ui';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { AccountCircle } from 'mdi-material-ui';
 import FeedProvider from '../contexts/FeedContext';
+import { useSnackBarContext } from '../contexts/SnackBarContext';
 import { useUserContext } from '../contexts/UserContext';
+import Feed from './Feed';
 import Menu from './Menu';
 import NewPostForm from './NewPostForm';
-import Feed from './Feed';
-import { useSnackBarContext } from '../contexts/SnackBarContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,19 +86,21 @@ const Layout: React.FC = () => {
 
       <Container maxWidth="lg" component="main">
         <Box py={3}>
-          <Grid container>
+          <Grid container justify="center">
             {showMenu && (
               <Grid item md={2}>
-                <List component="nav" dense>
-                  {user && (
-                    <ListItem button onClick={() => console.log('click')}>
-                      <ListItemIcon>
-                        <AccountCircle />
-                      </ListItemIcon>
-                      <ListItemText primary="Profile" />
-                    </ListItem>
-                  )}
-                </List>
+                <Box pr={2}>
+                  <Grid container direction="column" spacing={1}>
+                    <Grid item>
+                      <Button style={{ textTransform: 'none', width: '100%', justifyContent: 'flex-start' }}>
+                        <Box display="flex" pr={2}>
+                          <AccountCircle />
+                        </Box>
+                        Profile
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Box>
               </Grid>
             )}
             <Grid item container direction="column" alignItems="center" spacing={2} xs={12} md={8}>
