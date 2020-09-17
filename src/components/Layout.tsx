@@ -86,7 +86,7 @@ const Layout: React.FC = () => {
 
       <Container maxWidth="lg" component="main">
         <Box py={3}>
-          <Grid container justify="center">
+          <Grid container>
             {showMenu && (
               <Grid item md={2}>
                 <Box pr={2}>
@@ -103,7 +103,7 @@ const Layout: React.FC = () => {
                 </Box>
               </Grid>
             )}
-            <Grid item container direction="column" alignItems="center" spacing={2} xs={12} md={8}>
+            <Grid item container alignItems="center" xs={12} md={8}>
               <Grid item style={{ width: '100%' }}>
                 <FeedProvider>
                   {user && <NewPostForm />}
