@@ -34,12 +34,12 @@ const RegisterForm: React.FC = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (data) => {
-        const result = register(data.email, data.password);
+        const result = await register(data.email, data.password);
 
         if (typeof result === 'string') {
           snackBar(result, 'danger');
         } else {
-          history.push('/login', data);
+          history.push('/');
         }
       }}
     >

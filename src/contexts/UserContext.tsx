@@ -15,8 +15,7 @@ type UserContextType = {
   user: ContextUser;
   login: (email: string, password: string) => Promise<ContextUser | string>;
   logout: () => void;
-  register: (email: string, password: string) => ContextUser | string;
-  getUserByEmail: (email: string) => ContextUser | undefined;
+  register: (email: string, password: string) => Promise<ContextUser | string>;
 };
 
 const defaultUsers: ContextUser[] = [
@@ -100,11 +99,15 @@ const UserProvider: React.FC = ({ children }) => {
           setUser(undefined);
         },
 
-        register(email, password) {
-          const userAlreadyExists = users.filter((el) => el?.email === email)[0];
-
-          if (userAlreadyExists) {
-            return 'User already exists!';
+        async register(email, password) {
+          try {
+            await api.post('/account/register', {
+              email,
+              password,
+              confirmPassword: password,
+            });
+          } catch (error) {
+            return error.message;
           }
 
           const newUser = {
@@ -116,6 +119,7 @@ const UserProvider: React.FC = ({ children }) => {
           };
 
           setUsers((oldUsers) => [...oldUsers, newUser]);
+          setUser(newUser);
 
           return newUser;
         },
