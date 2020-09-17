@@ -9,25 +9,28 @@ const api = axios.create({
 api.interceptors.response.use(
   (_) => _,
   (error) => {
+    console.error(error);
+    console.error(error.response);
+
     // api returns only a string as response
     // should handle as the error msg
-    if (typeof error.response.data === 'string') {
-      console.error(error);
-      console.error(error.response);
+    if (typeof error.response?.data === 'string') {
       return Promise.reject(Error(error.response.data));
+    }
+
+    // api returns a error array
+    // should handle as the error msg
+    if (Array.isArray(error.response?.data)) {
+      const firstError = error.response.data[0];
+      return Promise.reject(Error(firstError.description ?? 'Unexpected Error'));
     }
 
     // api returns an array os errors
     // should handle as validation error
     // therefore something was sent wrong
-    if (error.response.data.errors) {
+    if (error.response?.data.errors) {
       console.error('Validation Error');
-      console.error(error.response.data.errors);
-    } else {
-      // any ohter situation log
-      // entire error and response
-      console.error(error);
-      console.error(error.response);
+      console.error(error.response?.data.errors);
     }
 
     return Promise.reject(Error('Inernal Error'));
