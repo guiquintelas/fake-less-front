@@ -46,9 +46,6 @@ export const UserContext = createContext<UserContextType>({
   login: () => {
     throw new Error('you should only use this context inside the provider!');
   },
-  getUserByEmail: () => {
-    throw new Error('you should only use this context inside the provider!');
-  },
   register: () => {
     throw new Error('you should only use this context inside the provider!');
   },
@@ -122,10 +119,6 @@ const UserProvider: React.FC = ({ children }) => {
           setUser(newUser);
 
           return newUser;
-        },
-
-        getUserByEmail(email) {
-          return users.filter((el) => el?.email === email)[0];
         },
       }}
     >
