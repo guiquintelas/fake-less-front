@@ -31,21 +31,15 @@ const LoginForm: React.FC = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={async (data) =>
-        new Promise((resolve) => {
-          setTimeout(() => {
-            const result = login(data.email, data.password);
+      onSubmit={async (data) => {
+        const result = await login(data.email, data.password);
 
             if (typeof result !== 'string') {
               history.push('/');
             } else {
               snackBar(result, 'danger');
             }
-
-            resolve();
-          }, 1000);
-        })
-      }
+      }}
     >
       {({ resetForm }) => (
         <Form>

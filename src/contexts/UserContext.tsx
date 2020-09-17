@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import api from '../api';
 
 export type User = {
   avatarUrl: string;
@@ -12,7 +13,7 @@ type ContextUser = undefined | User;
 
 type UserContextType = {
   user: ContextUser;
-  login: (email: string, password: string) => ContextUser | string;
+  login: (email: string, password: string) => Promise<ContextUser | string>;
   logout: () => void;
   register: (email: string, password: string) => ContextUser | string;
   getUserByEmail: (email: string) => ContextUser | undefined;
@@ -74,18 +75,28 @@ const UserProvider: React.FC = ({ children }) => {
       value={{
         user,
 
-        login(email, password) {
+        async login(email, password) {
+          try {
+            await api.post('/account/login', {
+              email,
+              password,
+            });
+          } catch (error) {
+            return error.message;
+          }
+
           const loggedUser = users.filter((el) => el?.email === email && el.password === password)[0];
 
           if (!loggedUser) {
-            return 'Invalid credentials!';
+            return "User doesn't exist!";
           }
 
           setUser(loggedUser);
           return loggedUser;
         },
 
-        logout() {
+        async logout() {
+          await api.post('/account/logout');
           setUser(undefined);
         },
 
