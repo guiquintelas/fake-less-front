@@ -2,32 +2,32 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import api from '../api';
 
 export type User = {
-  avatarUrl: string;
-  email: string;
-  password: string;
   name: string;
   lastName: string;
+  email: string;
+  location?: string | null;
+  birthDate?: Date;
+  avatarUrl?: string;
 };
 
 type ContextUser = undefined | User;
+
+type RegisterParams = {
+  name: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  location?: string;
+  birthDate?: Date | null;
+};
 
 type UserContextType = {
   user: ContextUser;
   login: (email: string, password: string) => Promise<ContextUser | string>;
   logout: () => void;
-  register: (email: string, password: string) => Promise<ContextUser | string>;
+  register: (args: RegisterParams) => Promise<ContextUser | string>;
 };
-
-const defaultUsers: ContextUser[] = [
-  {
-    email: 'guiquintelas@gmail.com',
-    password: '123',
-    name: 'Guilherme',
-    lastName: 'Quintelas',
-    avatarUrl: 'https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4',
-  },
-  { email: 'fulano@gmail.com', password: '123', name: 'Fulano', lastName: 'Ciclano', avatarUrl: '' },
-];
 
 const USER_STORAGE = 'user';
 
@@ -55,7 +55,6 @@ export const UserContext = createContext<UserContextType>({
 });
 
 const UserProvider: React.FC = ({ children }) => {
-  const [users, setUsers] = useState<ContextUser[]>(defaultUsers);
   const [user, setUser] = useState<ContextUser>(defaultUser);
 
   useEffect(() => {
@@ -72,8 +71,10 @@ const UserProvider: React.FC = ({ children }) => {
         user,
 
         async login(email, password) {
+          let result;
+
           try {
-            await api.post('/account/login', {
+            result = await api.post('/account/login', {
               email,
               password,
             });
@@ -81,14 +82,15 @@ const UserProvider: React.FC = ({ children }) => {
             return error.message;
           }
 
-          const loggedUser = users.filter((el) => el?.email === email && el.password === password)[0];
+          setUser({
+            name: result.data.nome,
+            lastName: result.data.sobrenome,
+            email: result.data.email,
+            birthDate: result.data.aniversario,
+            location: result.data.localidade,
+          });
 
-          if (!loggedUser) {
-            return "User doesn't exist!";
-          }
-
-          setUser(loggedUser);
-          return loggedUser;
+          return result.data;
         },
 
         async logout() {
@@ -96,29 +98,38 @@ const UserProvider: React.FC = ({ children }) => {
           setUser(undefined);
         },
 
-        async register(email, password) {
+        async register({ name, lastName, location, birthDate, ...others }) {
+          let result;
+
           try {
-            await api.post('/account/register', {
-              email,
-              password,
-              confirmPassword: password,
-            });
+            const data: any = {
+              nome: name,
+              sobrenome: lastName,
+              ...others,
+            };
+
+            if (location) {
+              data.localidade = location;
+            }
+
+            if (birthDate) {
+              data.aniversario = birthDate;
+            }
+
+            result = await api.post('/account/register', data);
           } catch (error) {
             return error.message;
           }
 
-          const newUser = {
-            email,
-            password,
-            name: '',
-            lastName: '',
-            avatarUrl: '',
-          };
+          setUser({
+            name: result.data.nome,
+            lastName: result.data.sobrenome,
+            email: result.data.email,
+            birthDate: result.data.aniversario,
+            location: result.data.localidade,
+          });
 
-          setUsers((oldUsers) => [...oldUsers, newUser]);
-          setUser(newUser);
-
-          return newUser;
+          return result.data;
         },
       }}
     >
