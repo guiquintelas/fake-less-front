@@ -12,6 +12,11 @@ api.interceptors.response.use(
     console.error(error);
     console.error(error.response);
 
+    if (error.response?.config.data) {
+      console.log('Request payload: ');
+      console.log(error.response.config.data);
+    }
+
     // api returns only a string as response
     // should handle as the error msg
     if (typeof error.response?.data === 'string') {
