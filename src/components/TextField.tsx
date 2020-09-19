@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import MuiTextfield, { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
 import { useField, useFormikContext } from 'formik';
-import { InputAdornment } from '@material-ui/core';
+import { Box, InputAdornment } from '@material-ui/core';
 
 export type TextFieldProps = MuiTextFieldProps & {
   name: string;
@@ -9,7 +9,7 @@ export type TextFieldProps = MuiTextFieldProps & {
 };
 
 const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ name, icon, disabled, value, InputProps, ...props }, ref) => {
+  ({ name, icon, disabled, value, InputProps, helperText, ...props }, ref) => {
     const [field, meta] = useField(name);
     const { isSubmitting, setFieldValue } = useFormikContext();
 
@@ -22,18 +22,20 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     const iconAdornment = icon ? <InputAdornment position="start">{icon}</InputAdornment> : null;
 
     return (
-      <MuiTextfield
-        inputRef={ref}
-        {...field}
-        {...props}
-        error={meta.touched && !!meta.error}
-        helperText={meta.touched && meta.error ? meta.error : null}
-        disabled={disabled || isSubmitting}
-        InputProps={{
-          ...InputProps,
-          startAdornment: iconAdornment,
-        }}
-      />
+      <Box mb={helperText ? 1 : 'auto'}>
+        <MuiTextfield
+          inputRef={ref}
+          {...field}
+          {...props}
+          error={meta.touched && !!meta.error}
+          helperText={meta.touched && meta.error ? meta.error : helperText}
+          disabled={disabled || isSubmitting}
+          InputProps={{
+            ...InputProps,
+            startAdornment: iconAdornment,
+          }}
+        />
+      </Box>
     );
   },
 );
