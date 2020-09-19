@@ -13,7 +13,7 @@ type ModifyFakedFactedUsers = (
 
 export type PostUser = {
   name: string;
-  avatarUrl: string;
+  avatarUrl?: string;
 };
 
 const guilhermeUser = {
