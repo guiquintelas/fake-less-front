@@ -4,6 +4,8 @@ import grey from '@material-ui/core/colors/grey';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import App from './App';
 import UserProvider from './contexts/UserContext';
 import SnackBarProvider from './contexts/SnackBarContext';
@@ -60,15 +62,17 @@ ReactDOM.render(
   <>
     <CssBaseline />
     <ThemeProvider theme={theme}>
-      <SnackBarProvider>
-        <ConfirmProvider>
-          <UserProvider>
-            <Router>
-              <App />
-            </Router>
-          </UserProvider>
-        </ConfirmProvider>
-      </SnackBarProvider>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <SnackBarProvider>
+          <ConfirmProvider>
+            <UserProvider>
+              <Router>
+                <App />
+              </Router>
+            </UserProvider>
+          </ConfirmProvider>
+        </SnackBarProvider>
+      </MuiPickersUtilsProvider>
     </ThemeProvider>
   </>,
   document.getElementById('root'),
