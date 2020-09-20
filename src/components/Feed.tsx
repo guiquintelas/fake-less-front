@@ -3,7 +3,11 @@ import React, { useEffect, useRef } from 'react';
 import { useFeedContext } from '../contexts/FeedContext';
 import Post from './Post';
 
-const PostFeed: React.FC = () => {
+type FeedProps = {
+  userId?: number | string;
+};
+
+const PostFeed: React.FC<FeedProps> = ({ userId }) => {
   const { feed, loading, loadMorePosts } = useFeedContext();
   const listRef = useRef<HTMLDivElement>();
   const SCROLL_OFFSET_TO_LOAD = 300;
@@ -28,7 +32,7 @@ const PostFeed: React.FC = () => {
   return (
     <>
       <Box p={1}>
-        <Typography variant="overline">Latest posts</Typography>
+        <Typography variant="overline">{userId ? 'Latest posts of this user' : 'Latest posts'}</Typography>
       </Box>
 
       <Grid innerRef={listRef} container spacing={4} direction="column">
