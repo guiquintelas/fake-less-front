@@ -1,15 +1,14 @@
-import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import { Form, Formik } from 'formik';
 import { Email, Lock } from 'mdi-material-ui';
-import { Formik, Form } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { object, string } from 'yup';
-import { useHistory, useLocation } from 'react-router-dom';
-import { initialValues as CreateAccountFormValues } from './RegisterForm';
-import TextField from './TextField';
-import LoadingButton from './LoadingButton';
-import { useUserContext } from '../contexts/UserContext';
 import { useSnackBarContext } from '../contexts/SnackBarContext';
+import { useUserContext } from '../contexts/UserContext';
+import LoadingButton from './LoadingButton';
+import TextField from './TextField';
 
 const initialValues = {
   email: '',
@@ -23,7 +22,6 @@ const validationSchema = object({
 
 const LoginForm: React.FC = () => {
   const history = useHistory();
-  const location = useLocation<typeof CreateAccountFormValues>();
   const { login } = useUserContext();
   const { snackBar } = useSnackBarContext();
 
@@ -34,11 +32,11 @@ const LoginForm: React.FC = () => {
       onSubmit={async (data) => {
         const result = await login(data.email, data.password);
 
-            if (typeof result !== 'string') {
-              history.push('/');
-            } else {
-              snackBar(result, 'danger');
-            }
+        if (typeof result !== 'string') {
+          history.push('/');
+        } else {
+          snackBar(result, 'danger');
+        }
       }}
     >
       {({ resetForm }) => (
@@ -51,20 +49,12 @@ const LoginForm: React.FC = () => {
                 required
                 InputLabelProps={{ required: false }}
                 style={{ width: '100%' }}
-                value={location.state?.email || 'guiquintelas@gmail.com'}
                 icon={<Email />}
               />
             </Grid>
 
             <Grid item>
-              <TextField
-                name="password"
-                label="Password"
-                type="password"
-                style={{ width: '100%' }}
-                value={location.state?.password || '123'}
-                icon={<Lock />}
-              />
+              <TextField name="password" label="Password" type="password" style={{ width: '100%' }} icon={<Lock />} />
             </Grid>
 
             <Grid container item justify="flex-end" spacing={1}>
