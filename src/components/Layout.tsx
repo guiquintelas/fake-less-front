@@ -14,13 +14,14 @@ import {
 } from '@material-ui/core';
 import { AccountCircle } from 'mdi-material-ui';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import FeedProvider from '../contexts/FeedContext';
 import { useSnackBarContext } from '../contexts/SnackBarContext';
 import { useUserContext } from '../contexts/UserContext';
 import Feed from './Feed';
 import Menu from './Menu';
 import NewPostForm from './NewPostForm';
+import Profile from './Profile';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,30 +88,45 @@ const Layout: React.FC = () => {
       <Container maxWidth="lg" component="main">
         <Box py={3}>
           <Grid container>
-            {showMenu && (
-              <Grid item md={2}>
-                <Box pr={2}>
-                  <Grid container direction="column" spacing={1}>
-                    <Grid item>
-                      <Button style={{ textTransform: 'none', width: '100%', justifyContent: 'flex-start' }}>
-                        <Box display="flex" pr={2}>
-                          <AccountCircle />
-                        </Box>
-                        Profile
-                      </Button>
-                    </Grid>
+            <Switch>
+              <Route path="/:userId">
+                <Profile />
+              </Route>
+
+              <Route path="/">
+                {showMenu && (
+                  <Grid item md={2}>
+                    <Box pr={2}>
+                      <Grid container direction="column" spacing={1}>
+                        {user && (
+                          <Grid item>
+                            <Button
+                              style={{ textTransform: 'none', width: '100%', justifyContent: 'flex-start' }}
+                              onClick={() => {
+                                history.push(`/${user.id}`);
+                              }}
+                            >
+                              <Box display="flex" pr={2}>
+                                <AccountCircle />
+                              </Box>
+                              Profile
+                            </Button>
+                          </Grid>
+                        )}
+                      </Grid>
+                    </Box>
                   </Grid>
-                </Box>
-              </Grid>
-            )}
-            <Grid item container alignItems="center" xs={12} md={8}>
-              <Grid item style={{ width: '100%' }}>
-                <FeedProvider>
-                  {user && <NewPostForm />}
-                  <Feed />
-                </FeedProvider>
-              </Grid>
-            </Grid>
+                )}
+                <Grid item container alignItems="center" xs={12} md={8}>
+                  <Grid item style={{ width: '100%' }}>
+                    <FeedProvider>
+                      {user && <NewPostForm />}
+                      <Feed />
+                    </FeedProvider>
+                  </Grid>
+                </Grid>
+              </Route>
+            </Switch>
           </Grid>
         </Box>
       </Container>
