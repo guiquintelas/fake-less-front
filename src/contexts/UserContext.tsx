@@ -31,22 +31,24 @@ type UserContextType = {
   register: (args: RegisterParams) => Promise<ContextUser | string>;
 };
 
-type UserResponse = {
-  data: {
-    usuarioId: number;
-    nome: string;
-    sobrenome: string;
-    email: string;
-    aniversario: string | null;
-    localidade: string | null;
+export type UserAPI = {
+  usuarioId: number;
+  nome: string;
+  sobrenome: string;
+  email: string;
+  aniversario: string | null;
+  localidade: string | null;
 
-    perfil: {
-      perfilId: number;
-      amizades: null;
-      privado: boolean;
-      userId: number;
-    };
+  perfil: {
+    perfilId: number;
+    amizades: null;
+    privado: boolean;
+    userId: number;
   };
+};
+
+export type UserResponse = {
+  data: UserAPI;
 };
 
 const USER_STORAGE = 'user';
