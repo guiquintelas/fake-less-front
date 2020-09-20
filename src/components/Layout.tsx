@@ -49,7 +49,9 @@ const Layout: React.FC = () => {
         <Container maxWidth="lg" style={{ padding: 0 }}>
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
+              <Link href="/" color="inherit" style={{ textDecoration: 'none' }}>
               Fake Less
+              </Link>
             </Typography>
 
             <Box>
