@@ -56,7 +56,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
 
               <Box flex={1}>
                 <Typography variant="body1">
-                  <Link component={RouterLink} to={`/${post.createdBy.id}`}>
+                  <Link component={RouterLink} to={`/${post.createdBy.id}`} style={{ textDecoration: 'none' }}>
                     {post.createdBy.name}
                   </Link>
                 </Typography>
@@ -245,7 +245,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
                   <Box pr={1} flexGrow={0} display="flex" alignItems="baseline">
                     <Box pr={1}>
                       <Typography variant="subtitle2">
-                        <Link component={RouterLink} to={`/${comment.createdBy.id}`}>
+                        <Link component={RouterLink} to={`/${comment.createdBy.id}`} style={{ textDecoration: 'none' }}>
                           {comment.createdBy.name}
                         </Link>
                       </Typography>
