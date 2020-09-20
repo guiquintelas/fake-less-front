@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   Grid,
+  Link,
   makeStyles,
   MenuItem,
   Toolbar,
@@ -50,7 +51,7 @@ const Layout: React.FC = () => {
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
               <Link href="/" color="inherit" style={{ textDecoration: 'none' }}>
-              Fake Less
+                Fake Less
               </Link>
             </Typography>
 
@@ -89,7 +90,7 @@ const Layout: React.FC = () => {
 
       <Container maxWidth="lg" component="main">
         <Box py={3}>
-          <Grid container>
+          <Grid container spacing={4}>
             <Switch>
               <Route path="/:userId">
                 <Profile />
