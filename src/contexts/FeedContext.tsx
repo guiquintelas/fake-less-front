@@ -12,16 +12,19 @@ type ModifyFakedFactedUsers = (
 };
 
 export type PostUser = {
+  id: string | number;
   name: string;
   avatarUrl?: string;
 };
 
 const guilhermeUser = {
+  id: 1,
   name: 'Guilherme',
   avatarUrl: 'https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4',
 };
 
 const samelUser = {
+  id: 2,
   name: 'Samel',
   avatarUrl: 'https://avatars2.githubusercontent.com/u/36681917?s=460&u=4fcf73a31535597993452e5c6afdd3cf9ef67936&v=4',
 };
@@ -114,7 +117,7 @@ export const FeedContext = createContext<FeedContextType>({
 const addFakedUser: ModifyFakedFactedUsers = (post, user) => {
   return {
     type: 'fake',
-    fakedUsers: [...post.fakedUsers, { name: user.name, avatarUrl: user.avatarUrl }],
+    fakedUsers: [...post.fakedUsers, { name: user.name, avatarUrl: user.avatarUrl, id: user.id }],
     factedUsers: post.factedUsers.filter((el) => el.name !== user.name),
   };
 };
@@ -123,7 +126,7 @@ const addFactedUser: ModifyFakedFactedUsers = (post, user) => {
   return {
     type: 'fact',
     fakedUsers: post.fakedUsers.filter((el) => el.name !== user.name),
-    factedUsers: [...post.factedUsers, { name: user.name, avatarUrl: user.avatarUrl }],
+    factedUsers: [...post.factedUsers, { name: user.name, avatarUrl: user.avatarUrl, id: user.id }],
   };
 };
 

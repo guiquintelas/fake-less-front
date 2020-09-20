@@ -10,6 +10,7 @@ import {
   IconButton,
   Tooltip,
   InputBase,
+  Link,
 } from '@material-ui/core';
 import {
   AlertCircle,
@@ -22,6 +23,7 @@ import {
   Check,
 } from 'mdi-material-ui';
 import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
 import PostNewComment from './PostNewComment';
 import { useUserContext } from '../contexts/UserContext';
@@ -53,7 +55,11 @@ const Post: React.SFC<PostProps> = ({ post }) => {
               </Box>
 
               <Box flex={1}>
-                <Typography variant="body1">{post.createdBy.name}</Typography>
+                <Typography variant="body1">
+                  <Link component={RouterLink} to={`/${post.createdBy.id}`}>
+                    {post.createdBy.name}
+                  </Link>
+                </Typography>
 
                 <Typography variant="caption">{post.createdAt.toLocaleString()}</Typography>
               </Box>
@@ -238,7 +244,11 @@ const Post: React.SFC<PostProps> = ({ post }) => {
 
                   <Box pr={1} flexGrow={0} display="flex" alignItems="baseline">
                     <Box pr={1}>
-                      <Typography variant="subtitle2">{comment.createdBy.name}</Typography>
+                      <Typography variant="subtitle2">
+                        <Link component={RouterLink} to={`/${comment.createdBy.id}`}>
+                          {comment.createdBy.name}
+                        </Link>
+                      </Typography>
                     </Box>
                     <Typography variant="body2">{comment.content}</Typography>
                   </Box>

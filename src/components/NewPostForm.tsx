@@ -30,6 +30,7 @@ const NewPostForm: React.FC = () => {
                 content: post,
                 createdAt: new Date(),
                 createdBy: {
+                  id: 1,
                   name: user!.name,
                   avatarUrl: user!.avatarUrl,
                 },

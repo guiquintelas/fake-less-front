@@ -23,6 +23,7 @@ const PostNewComment: React.FC<PostNewCommentProps> = ({ postId, disabled }) => 
         commentOnPost(postId, {
           content: data.commentText,
           createdBy: {
+            id: 1,
             name: user!.name,
             avatarUrl: user!.avatarUrl,
           },
