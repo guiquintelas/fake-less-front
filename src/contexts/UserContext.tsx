@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import api from '../api';
 
 export type User = {
+  id: string | number;
   name: string;
   lastName: string;
   email: string;
@@ -83,6 +84,7 @@ const UserProvider: React.FC = ({ children }) => {
           }
 
           setUser({
+            id: result.data.usuarioId,
             name: result.data.nome,
             lastName: result.data.sobrenome,
             email: result.data.email,
@@ -122,6 +124,7 @@ const UserProvider: React.FC = ({ children }) => {
           }
 
           setUser({
+            id: result.data.usuarioId,
             name: result.data.nome,
             lastName: result.data.sobrenome,
             email: result.data.email,
