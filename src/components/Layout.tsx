@@ -89,7 +89,7 @@ const Layout: React.FC = () => {
         <Box py={3}>
           <Grid container>
             <Switch>
-              <Route path="/:profileId">
+              <Route path="/:userId">
                 <Profile />
               </Route>
 
@@ -103,7 +103,7 @@ const Layout: React.FC = () => {
                             <Button
                               style={{ textTransform: 'none', width: '100%', justifyContent: 'flex-start' }}
                               onClick={() => {
-                                history.push(`/${user.profileId}`);
+                                history.push(`/${user.id}`);
                               }}
                             >
                               <Box display="flex" pr={2}>
