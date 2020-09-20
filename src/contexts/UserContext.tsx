@@ -3,11 +3,12 @@ import api from '../api';
 
 export type User = {
   id: string | number;
+  profileId: number;
   name: string;
   lastName: string;
   email: string;
-  location?: string | null;
-  birthDate?: Date;
+  location: string | null;
+  birthDate: string | null;
   avatarUrl?: string;
 };
 
@@ -28,6 +29,24 @@ type UserContextType = {
   login: (email: string, password: string) => Promise<ContextUser | string>;
   logout: () => void;
   register: (args: RegisterParams) => Promise<ContextUser | string>;
+};
+
+type UserResponse = {
+  data: {
+    usuarioId: number;
+    nome: string;
+    sobrenome: string;
+    email: string;
+    aniversario: string | null;
+    localidade: string | null;
+
+    perfil: {
+      perfilId: number;
+      amizades: null;
+      privado: boolean;
+      userId: number;
+    };
+  };
 };
 
 const USER_STORAGE = 'user';
@@ -58,6 +77,18 @@ export const UserContext = createContext<UserContextType>({
 const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<ContextUser>(defaultUser);
 
+  const saveUser = ({ data }: UserResponse) => {
+    setUser({
+      id: data.usuarioId,
+      profileId: data.perfil.perfilId,
+      name: data.nome,
+      lastName: data.sobrenome,
+      email: data.email,
+      birthDate: data.aniversario,
+      location: data.localidade,
+    });
+  };
+
   useEffect(() => {
     if (user) {
       localStorage.setItem(USER_STORAGE, JSON.stringify(user));
@@ -83,14 +114,7 @@ const UserProvider: React.FC = ({ children }) => {
             return error.message;
           }
 
-          setUser({
-            id: result.data.usuarioId,
-            name: result.data.nome,
-            lastName: result.data.sobrenome,
-            email: result.data.email,
-            birthDate: result.data.aniversario,
-            location: result.data.localidade,
-          });
+          saveUser(result);
 
           return result.data;
         },
@@ -123,14 +147,7 @@ const UserProvider: React.FC = ({ children }) => {
             return error.message;
           }
 
-          setUser({
-            id: result.data.usuarioId,
-            name: result.data.nome,
-            lastName: result.data.sobrenome,
-            email: result.data.email,
-            birthDate: result.data.aniversario,
-            location: result.data.localidade,
-          });
+          saveUser(result);
 
           return result.data;
         },

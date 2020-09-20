@@ -8,12 +8,13 @@ import FeedProvider from '../contexts/FeedContext';
 import { useUserContext } from '../contexts/UserContext';
 
 const Profile: React.FC = () => {
-  const { userId } = useParams<{ userId: string }>();
+  const { profileId } = useParams<{ profileId: string }>();
   const history = useHistory();
   const { user: loggedUser } = useUserContext();
 
   const user = {
     id: 1,
+    profileId: 1,
     name: 'Teste',
     lastName: 'Sobrenome',
     email: 'email@email.com',
@@ -71,7 +72,7 @@ const Profile: React.FC = () => {
                         color="primary"
                         variant="contained"
                         disableElevation
-                        disabled={loggedUser?.id === user.id}
+                        disabled={loggedUser?.profileId === user.profileId}
                       >
                         Follow
                       </Button>
@@ -101,7 +102,7 @@ const Profile: React.FC = () => {
       <Grid item container alignItems="center" xs={12} md={8}>
         <Grid item style={{ width: '100%' }}>
           <FeedProvider>
-            <Feed userId={userId} />
+            <Feed userId={profileId} />
           </FeedProvider>
         </Grid>
       </Grid>
