@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { ProfileResponse, UserResponse } from '../@types/apiTypes';
+import { ProfileResponse, SingleProfileResponse, UserResponse } from '../@types/apiTypes';
 import api from '../api';
 import useDataMapper from '../hooks/useDataMapper';
 import { User, useUserContext } from './UserContext';
@@ -7,17 +7,23 @@ import { User, useUserContext } from './UserContext';
 type ProfileContextType = {
   user: User | null;
   loadingFollowBtn: boolean;
+  loadingAvatarBtn: boolean;
   fetchUser: (userId: string) => Promise<UserResponse | string>;
   toggleFollow: (profileId: number) => Promise<ProfileResponse | string>;
+  changeAvatar: (profileId: number, file: File) => Promise<ProfileResponse | string>;
 };
 
 export const ProfileContext = createContext<ProfileContextType>({
   user: null,
   loadingFollowBtn: false,
+  loadingAvatarBtn: false,
   fetchUser: () => {
     throw new Error('you should only use this context inside the provider!');
   },
   toggleFollow: () => {
+    throw new Error('you should only use this context inside the provider!');
+  },
+  changeAvatar: () => {
     throw new Error('you should only use this context inside the provider!');
   },
 });
@@ -25,6 +31,7 @@ export const ProfileContext = createContext<ProfileContextType>({
 const ProfileProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingFollowBtn, setLoadingFollowBtn] = useState(false);
+  const [loadingAvatarBtn, setLoadingAvatarBtn] = useState(false);
   const { userAPIToUser, profileAPIToUserFields } = useDataMapper();
   const { user: loggedUser, updateUser } = useUserContext();
 
@@ -33,6 +40,7 @@ const ProfileProvider: React.FC = ({ children }) => {
       value={{
         user,
         loadingFollowBtn,
+        loadingAvatarBtn,
 
         async fetchUser(userId) {
           let result: UserResponse;
@@ -67,6 +75,32 @@ const ProfileProvider: React.FC = ({ children }) => {
           }));
 
           updateUser(profileAPIToUserFields(result.data.perfilLogado));
+
+          return result;
+        },
+
+        async changeAvatar(profileId, file) {
+          let result: SingleProfileResponse;
+
+          const formData = new FormData();
+
+          formData.append('files', file);
+
+          try {
+            setLoadingAvatarBtn(true);
+            result = await api.post(`/perfil/${profileId}/foto-perfil`, formData);
+          } catch (error) {
+            return error;
+          } finally {
+            setLoadingAvatarBtn(false);
+          }
+
+          setUser((oldUser) => ({
+            ...(oldUser as User),
+            ...profileAPIToUserFields(result.data),
+          }));
+
+          updateUser(profileAPIToUserFields(result.data));
 
           return result;
         },

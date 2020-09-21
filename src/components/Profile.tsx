@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 import { ArrowLeft, CakeVariant, Email, MapMarker, Pencil } from 'mdi-material-ui';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import FeedProvider from '../contexts/FeedContext';
 import { useProfileContext } from '../contexts/ProfileContext';
@@ -25,7 +25,8 @@ const Profile: React.FC = () => {
   const { snackBar } = useSnackBarContext();
   const history = useHistory();
   const { user: loggedUser } = useUserContext();
-  const { user, fetchUser, loadingFollowBtn, toggleFollow } = useProfileContext();
+  const { user, fetchUser, loadingFollowBtn, loadingAvatarBtn, toggleFollow, changeAvatar } = useProfileContext();
+  const uploadInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const init = async () => {
@@ -66,24 +67,53 @@ const Profile: React.FC = () => {
                 src={user.avatarUrl}
               />
 
-              <Tooltip title="Change Profile Photo" aria-label="change profile photo">
-                <Button
-                  variant="contained"
-                  aria-label="change photo"
-                  color="primary"
-                  style={{
-                    borderRadius: '50%',
-                    position: 'absolute',
-                    bottom: '5%',
-                    right: '5%',
-                    width: '48px',
-                    minWidth: '48px',
-                    height: '48px',
-                  }}
-                >
-                  <Pencil />
-                </Button>
-              </Tooltip>
+              {loggedUser && loggedUser.profileId === user.profileId && (
+                <Tooltip title="Change Profile Photo" aria-label="change profile photo">
+                  <Button
+                    variant="contained"
+                    aria-label="change photo"
+                    color="primary"
+                    style={{
+                      borderRadius: '50%',
+                      position: 'absolute',
+                      bottom: '5%',
+                      right: '5%',
+                      width: '48px',
+                      minWidth: '48px',
+                      height: '48px',
+                    }}
+                    onClick={() => {
+                      uploadInputRef.current!.click();
+                    }}
+                  >
+                    {!loadingAvatarBtn ? (
+                      <Pencil />
+                    ) : (
+                      <CircularProgress size={24} style={{ color: 'white', display: 'table' }} />
+                    )}
+
+                    <input
+                      ref={uploadInputRef}
+                      style={{ display: 'none' }}
+                      type="file"
+                      accept="image/x-png,image/gif,image/jpeg"
+                      onChange={async (e) => {
+                        const file = e.target.files ? e.target.files[0] : null;
+
+                        if (!file) {
+                          return;
+                        }
+
+                        const result = await changeAvatar(+userId, file);
+
+                        if (typeof result === 'string') {
+                          snackBar(result, 'danger');
+                        }
+                      }}
+                    />
+                  </Button>
+                </Tooltip>
+              )}
             </Box>
           </Box>
 
@@ -128,7 +158,7 @@ const Profile: React.FC = () => {
                 </Box>
               )}
 
-              {loggedUser && (
+              {loggedUser && loggedUser.profileId !== user.profileId && (
                 <Box pb={2} pt={3}>
                   <Button
                     style={{ textTransform: 'none', width: '100%' }}
@@ -142,7 +172,7 @@ const Profile: React.FC = () => {
                     color={loggedUser.following.includes(user.profileId) ? 'default' : 'primary'}
                     variant="contained"
                     disableElevation
-                    disabled={loggedUser.profileId === user.profileId || loadingFollowBtn}
+                    disabled={loadingFollowBtn}
                   >
                     {loggedUser.following.includes(user.profileId) ? 'Unfollow' : 'Follow'}
                   </Button>

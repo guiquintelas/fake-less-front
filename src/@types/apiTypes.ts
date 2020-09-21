@@ -34,3 +34,7 @@ export type ProfileResponse = {
     perfilLogado: PerfilAPI;
   };
 };
+
+export type SingleProfileResponse = {
+  data: PerfilAPI;
+};
