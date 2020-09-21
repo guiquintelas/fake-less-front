@@ -10,14 +10,14 @@ export type User = {
   email: string;
   location: string | null;
   birthDate: Date | null;
-  avatarUrl?: string;
 
   profileId: number;
   following: number[];
   followers: number[];
+  avatarUrl: string;
 };
 
-export type ProfileFields = Pick<User, 'profileId' | 'following' | 'followers'>;
+export type ProfileFields = Pick<User, 'profileId' | 'following' | 'followers' | 'avatarUrl'>;
 
 type ContextUser = undefined | User;
 

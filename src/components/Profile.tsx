@@ -63,7 +63,7 @@ const Profile: React.FC = () => {
               <Avatar
                 style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
                 alt={user.name}
-                src=""
+                src={user.avatarUrl}
               />
 
               <Tooltip title="Change Profile Photo" aria-label="change profile photo">

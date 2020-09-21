@@ -14,6 +14,7 @@ export default function useDataMapper() {
         profileId: data.perfil.perfilId,
         following: data.perfil.seguindo?.map((el) => el.perfilSeguidoId) ?? [],
         followers: data.perfil.seguidores?.map((el) => el.perfilId) ?? [],
+        avatarUrl: data.perfil.imagemPerfil ?? '',
       };
     },
 
@@ -22,6 +23,7 @@ export default function useDataMapper() {
         profileId: data.perfilId,
         following: data.seguindo?.map((el) => el.perfilSeguidoId) ?? [],
         followers: data.seguidores?.map((el) => el.perfilId) ?? [],
+        avatarUrl: data.imagemPerfil ?? '',
       };
     },
   };

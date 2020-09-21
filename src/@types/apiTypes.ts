@@ -8,6 +8,7 @@ export type PerfilAPI = {
   perfilId: number;
   privado: boolean;
   userId: number;
+  imagemPerfil: string | null;
   seguindo: AmizadeAPI[] | null;
   seguidores: AmizadeAPI[] | null;
 };
