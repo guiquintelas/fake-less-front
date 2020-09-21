@@ -89,7 +89,7 @@ const Layout: React.FC = () => {
         </Container>
       </AppBar>
 
-      <Container maxWidth="lg" component="main">
+      <Container maxWidth="md" component="main">
         <Box py={3}>
           <Grid container spacing={4}>
             <Switch>

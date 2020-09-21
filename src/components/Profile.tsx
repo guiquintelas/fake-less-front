@@ -118,7 +118,7 @@ const Profile: React.FC = () => {
           </Box>
 
           <Box width="fit-content" m="auto">
-            <Typography variant="h4">{`${user.name} ${user.lastName}`}</Typography>
+            <Typography variant="h4" style={{ textAlign: 'center' }}>{`${user.name} ${user.lastName}`}</Typography>
 
             <Box color={grey[600]} pt={2} m="auto" width="fit-content">
               <Grid container spacing={2}>
