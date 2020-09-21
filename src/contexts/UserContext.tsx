@@ -10,6 +10,7 @@ export type User = {
   location: string | null;
   birthDate: string | null;
   avatarUrl?: string;
+  following: number[] | null;
 };
 
 type ContextUser = undefined | User;
@@ -31,6 +32,13 @@ type UserContextType = {
   register: (args: RegisterParams) => Promise<ContextUser | string>;
 };
 
+type PerfilAPI = {
+  perfilId: number;
+  amizades: PerfilAPI[] | null;
+  privado: boolean;
+  userId: number;
+};
+
 export type UserAPI = {
   usuarioId: number;
   nome: string;
@@ -39,12 +47,7 @@ export type UserAPI = {
   aniversario: string | null;
   localidade: string | null;
 
-  perfil: {
-    perfilId: number;
-    amizades: null;
-    privado: boolean;
-    userId: number;
-  };
+  perfil: PerfilAPI;
 };
 
 export type UserResponse = {
@@ -82,12 +85,13 @@ const UserProvider: React.FC = ({ children }) => {
   const saveUser = ({ data }: UserResponse) => {
     setUser({
       id: data.usuarioId,
-      profileId: data.perfil.perfilId,
       name: data.nome,
       lastName: data.sobrenome,
       email: data.email,
       birthDate: data.aniversario,
       location: data.localidade,
+      profileId: data.perfil.perfilId,
+      following: data.perfil.amizades?.map((el) => el.perfilId) ?? null,
     });
   };
 
