@@ -21,7 +21,7 @@ import { useSnackBarContext } from '../contexts/SnackBarContext';
 import { useUserContext } from '../contexts/UserContext';
 import Feed from './Feed';
 import Menu from './Menu';
-import NewPostForm from './NewPostForm';
+import NewPost from './NewPost';
 import Profile from './Profile';
 
 const useStyles = makeStyles((theme) => ({
@@ -123,7 +123,7 @@ const Layout: React.FC = () => {
                 <Grid item container alignItems="center" xs={12} md={8}>
                   <Grid item style={{ width: '100%' }}>
                     <FeedProvider>
-                      {user && <NewPostForm />}
+                      {user && <NewPost />}
                       <Feed />
                     </FeedProvider>
                   </Grid>

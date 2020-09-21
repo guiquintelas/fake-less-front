@@ -9,7 +9,7 @@ export type PostNewCommentProps = {
   disabled: boolean;
 };
 
-const PostNewComment: React.FC<PostNewCommentProps> = ({ postId, disabled }) => {
+const NewComment: React.FC<PostNewCommentProps> = ({ postId, disabled }) => {
   const { commentOnPost } = useFeedContext();
   const { user } = useUserContext();
   const textFieldRef = useRef<HTMLInputElement>(null);
@@ -49,4 +49,4 @@ const PostNewComment: React.FC<PostNewCommentProps> = ({ postId, disabled }) => 
   );
 };
 
-export default PostNewComment;
+export default NewComment;

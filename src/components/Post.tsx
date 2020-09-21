@@ -25,7 +25,7 @@ import {
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Post as PostType, useFeedContext } from '../contexts/FeedContext';
-import PostNewComment from './PostNewComment';
+import NewComment from './NewComment';
 import { useUserContext } from '../contexts/UserContext';
 import { useConfirmContext } from '../contexts/ConfirmContext';
 import { useSnackBarContext } from '../contexts/SnackBarContext';
@@ -222,7 +222,7 @@ const Post: React.SFC<PostProps> = ({ post }) => {
 
           {user && (
             <Grid item>
-              <PostNewComment disabled={isUpdating} postId={post.id} />
+              <NewComment disabled={isUpdating} postId={post.id} />
             </Grid>
           )}
 

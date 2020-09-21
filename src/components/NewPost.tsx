@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useFeedContext } from '../contexts/FeedContext';
 import { useUserContext } from '../contexts/UserContext';
 
-const NewPostForm: React.FC = () => {
+const NewPost: React.FC = () => {
   const { user } = useUserContext();
   const [post, setPost] = useState('');
   const { addPost } = useFeedContext();
@@ -48,4 +48,4 @@ const NewPostForm: React.FC = () => {
   );
 };
 
-export default NewPostForm;
+export default NewPost;
