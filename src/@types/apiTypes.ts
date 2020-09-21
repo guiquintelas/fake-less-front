@@ -28,5 +28,8 @@ export type UserResponse = {
 };
 
 export type ProfileResponse = {
-  data: PerfilAPI;
+  data: {
+    perfilSeguido: PerfilAPI;
+    perfilLogado: PerfilAPI;
+  };
 };
