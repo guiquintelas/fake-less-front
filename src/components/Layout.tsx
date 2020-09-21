@@ -17,6 +17,7 @@ import { AccountCircle } from 'mdi-material-ui';
 import React from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import FeedProvider from '../contexts/FeedContext';
+import ProfileProvider from '../contexts/ProfileContext';
 import { useSnackBarContext } from '../contexts/SnackBarContext';
 import { useUserContext } from '../contexts/UserContext';
 import Feed from './Feed';
@@ -93,7 +94,9 @@ const Layout: React.FC = () => {
           <Grid container spacing={4}>
             <Switch>
               <Route path="/:userId">
-                <Profile />
+                <ProfileProvider>
+                  <Profile />
+                </ProfileProvider>
               </Route>
 
               <Route path="/">
