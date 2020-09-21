@@ -25,7 +25,15 @@ const Profile: React.FC = () => {
   const { snackBar } = useSnackBarContext();
   const history = useHistory();
   const { user: loggedUser } = useUserContext();
-  const { user, fetchUser, loadingFollowBtn, loadingAvatarBtn, toggleFollow, changeAvatar } = useProfileContext();
+  const {
+    user,
+    fetchUser,
+    loadingFollowBtn,
+    loadingAvatarBtn,
+    toggleFollow,
+    changeAvatar,
+    gallery,
+  } = useProfileContext();
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -191,86 +199,24 @@ const Profile: React.FC = () => {
             </Box>
 
             <GridList spacing={8} cols={3} cellHeight="auto">
-              <GridListTile cols={1}>
-                <Box position="relative" width="100%" m="auto" pb="100%">
-                  <img
-                    alt="teste"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      position: 'absolute',
-                      top: 0,
-                      borderRadius: '10px',
-                      left: 0,
-                    }}
-                    src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
-                  />
-                </Box>
-              </GridListTile>
-              <GridListTile cols={1}>
-                <Box position="relative" width="100%" m="auto" pb="100%">
-                  <img
-                    alt="teste"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      position: 'absolute',
-                      top: 0,
-                      borderRadius: '10px',
-                      left: 0,
-                    }}
-                    src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
-                  />
-                </Box>
-              </GridListTile>
-              <GridListTile cols={1}>
-                <Box position="relative" width="100%" m="auto" pb="100%">
-                  <img
-                    alt="teste"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      position: 'absolute',
-                      top: 0,
-                      borderRadius: '10px',
-                      left: 0,
-                    }}
-                    src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
-                  />
-                </Box>
-              </GridListTile>
-              <GridListTile cols={1}>
-                <Box position="relative" width="100%" m="auto" pb="100%">
-                  <img
-                    alt="teste"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      position: 'absolute',
-                      top: 0,
-                      borderRadius: '10px',
-                      left: 0,
-                    }}
-                    src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
-                  />
-                </Box>
-              </GridListTile>
-              <GridListTile cols={1}>
-                <Box position="relative" width="100%" m="auto" pb="100%">
-                  <img
-                    alt="teste"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      position: 'absolute',
-                      top: 0,
-                      borderRadius: '10px',
-                      left: 0,
-                    }}
-                    src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
-                  />
-                </Box>
-              </GridListTile>
+              {gallery.map((img) => (
+                <GridListTile cols={1} key={img}>
+                  <Box position="relative" width="100%" m="auto" pb="100%">
+                    <img
+                      alt="teste"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        top: 0,
+                        borderRadius: '10px',
+                        left: 0,
+                      }}
+                      src={img}
+                    />
+                  </Box>
+                </GridListTile>
+              ))}
             </GridList>
           </Box>
         </>

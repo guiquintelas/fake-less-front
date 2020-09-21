@@ -1,11 +1,12 @@
-import React, { createContext, useContext, useState } from 'react';
-import { ProfileResponse, SingleProfileResponse, UserResponse } from '../@types/apiTypes';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { GalleryResponse, ProfileResponse, SingleProfileResponse, UserResponse } from '../@types/apiTypes';
 import api from '../api';
 import useDataMapper from '../hooks/useDataMapper';
 import { User, useUserContext } from './UserContext';
 
 type ProfileContextType = {
   user: User | null;
+  gallery: string[];
   loadingFollowBtn: boolean;
   loadingAvatarBtn: boolean;
   fetchUser: (userId: string) => Promise<UserResponse | string>;
@@ -17,6 +18,7 @@ export const ProfileContext = createContext<ProfileContextType>({
   user: null,
   loadingFollowBtn: false,
   loadingAvatarBtn: false,
+  gallery: [],
   fetchUser: () => {
     throw new Error('you should only use this context inside the provider!');
   },
@@ -30,10 +32,57 @@ export const ProfileContext = createContext<ProfileContextType>({
 
 const ProfileProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [gallery, setGallery] = useState<string[]>([]);
   const [loadingFollowBtn, setLoadingFollowBtn] = useState(false);
   const [loadingAvatarBtn, setLoadingAvatarBtn] = useState(false);
   const { userAPIToUser, profileAPIToUserFields } = useDataMapper();
   const { user: loggedUser, updateUser } = useUserContext();
+
+  const fetchGallery = async (profileId: number) => {
+    let result: GalleryResponse;
+
+    try {
+      result = await api.get(`/perfil/${profileId}/galeria`);
+    } catch (error) {
+      return error;
+    }
+
+    const newGallery = result.data
+      .map((el) => {
+        const splited = el.split('/imagens/');
+
+        if (splited.length !== 2) {
+          return false;
+        }
+
+        if (!splited[1].includes('/')) {
+          return false;
+        }
+
+        const [id] = splited[1].split('/');
+
+        if (+id !== profileId) {
+          return false;
+        }
+
+        return el;
+      })
+      .filter((el) => typeof el === 'string');
+
+    setGallery(newGallery as string[]);
+
+    return result;
+  };
+
+  useEffect(() => {
+    const handleUserChange = async () => {
+      if (user) {
+        await fetchGallery(user.profileId);
+      }
+    };
+
+    handleUserChange();
+  }, [user]);
 
   return (
     <ProfileContext.Provider
@@ -41,6 +90,7 @@ const ProfileProvider: React.FC = ({ children }) => {
         user,
         loadingFollowBtn,
         loadingAvatarBtn,
+        gallery,
 
         async fetchUser(userId) {
           let result: UserResponse;
@@ -52,6 +102,7 @@ const ProfileProvider: React.FC = ({ children }) => {
           }
 
           setUser(userAPIToUser(result));
+
           return result;
         },
 

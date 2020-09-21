@@ -38,3 +38,7 @@ export type ProfileResponse = {
 export type SingleProfileResponse = {
   data: PerfilAPI;
 };
+
+export type GalleryResponse = {
+  data: string[];
+};
