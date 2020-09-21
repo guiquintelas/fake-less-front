@@ -93,45 +93,45 @@ const Layout: React.FC = () => {
         <Box py={3}>
           <Grid container spacing={4}>
             <Switch>
-              <Route path="/:userId">
-                <ProfileProvider>
-                  <Profile />
-                </ProfileProvider>
-              </Route>
+              <FeedProvider>
+                <Route path="/:userId">
+                  <ProfileProvider>
+                    <Profile />
+                  </ProfileProvider>
+                </Route>
 
-              <Route path="/">
-                {showMenu && (
-                  <Grid item md={2}>
-                    <Box pr={2}>
-                      <Grid container direction="column" spacing={1}>
-                        {user && (
-                          <Grid item>
-                            <Button
-                              style={{ textTransform: 'none', width: '100%', justifyContent: 'flex-start' }}
-                              onClick={() => {
-                                history.push(`/${user.id}`);
-                              }}
-                            >
-                              <Box display="flex" pr={2}>
-                                <AccountCircle />
-                              </Box>
-                              Profile
-                            </Button>
-                          </Grid>
-                        )}
-                      </Grid>
-                    </Box>
-                  </Grid>
-                )}
-                <Grid item container alignItems="center" xs={12} md={8}>
-                  <Grid item style={{ width: '100%' }}>
-                    <FeedProvider>
+                <Route path="/">
+                  {showMenu && (
+                    <Grid item md={2}>
+                      <Box pr={2}>
+                        <Grid container direction="column" spacing={1}>
+                          {user && (
+                            <Grid item>
+                              <Button
+                                style={{ textTransform: 'none', width: '100%', justifyContent: 'flex-start' }}
+                                onClick={() => {
+                                  history.push(`/${user.id}`);
+                                }}
+                              >
+                                <Box display="flex" pr={2}>
+                                  <AccountCircle />
+                                </Box>
+                                Profile
+                              </Button>
+                            </Grid>
+                          )}
+                        </Grid>
+                      </Box>
+                    </Grid>
+                  )}
+                  <Grid item container alignItems="center" xs={12} md={8}>
+                    <Grid item style={{ width: '100%' }}>
                       {user && <NewPost />}
                       <Feed />
-                    </FeedProvider>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Route>
+                </Route>
+              </FeedProvider>
             </Switch>
           </Grid>
         </Box>

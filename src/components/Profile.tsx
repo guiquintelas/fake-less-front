@@ -224,9 +224,7 @@ const Profile: React.FC = () => {
 
       <Grid item container alignItems="center" xs={12} md={8}>
         <Grid item style={{ width: '100%' }}>
-          <FeedProvider>
-            <Feed userId={userId} />
-          </FeedProvider>
+          <Feed userId={userId} />
         </Grid>
       </Grid>
     </>
