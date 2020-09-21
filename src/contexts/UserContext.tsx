@@ -1,17 +1,22 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import api from '../api';
+import useDataMapper from '../hooks/useDataMapper';
 
 export type User = {
   id: string | number;
-  profileId: number;
   name: string;
   lastName: string;
   email: string;
   location: string | null;
-  birthDate: string | null;
+  birthDate: Date | null;
   avatarUrl?: string;
-  following: number[] | null;
+
+  profileId: number;
+  following: number[];
+  followers: number[];
 };
+
+export type ProfileFields = Pick<User, 'profileId' | 'following' | 'followers'>;
 
 type ContextUser = undefined | User;
 
@@ -30,28 +35,6 @@ type UserContextType = {
   login: (email: string, password: string) => Promise<ContextUser | string>;
   logout: () => void;
   register: (args: RegisterParams) => Promise<ContextUser | string>;
-};
-
-type PerfilAPI = {
-  perfilId: number;
-  amizades: PerfilAPI[] | null;
-  privado: boolean;
-  userId: number;
-};
-
-export type UserAPI = {
-  usuarioId: number;
-  nome: string;
-  sobrenome: string;
-  email: string;
-  aniversario: string | null;
-  localidade: string | null;
-
-  perfil: PerfilAPI;
-};
-
-export type UserResponse = {
-  data: UserAPI;
 };
 
 const USER_STORAGE = 'user';
@@ -81,19 +64,7 @@ export const UserContext = createContext<UserContextType>({
 
 const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<ContextUser>(defaultUser);
-
-  const saveUser = ({ data }: UserResponse) => {
-    setUser({
-      id: data.usuarioId,
-      name: data.nome,
-      lastName: data.sobrenome,
-      email: data.email,
-      birthDate: data.aniversario,
-      location: data.localidade,
-      profileId: data.perfil.perfilId,
-      following: data.perfil.amizades?.map((el) => el.perfilId) ?? null,
-    });
-  };
+  const { userAPIToUser } = useDataMapper();
 
   useEffect(() => {
     if (user) {
@@ -120,7 +91,7 @@ const UserProvider: React.FC = ({ children }) => {
             return error.message;
           }
 
-          saveUser(result);
+          setUser(userAPIToUser(result));
 
           return result.data;
         },
@@ -153,7 +124,7 @@ const UserProvider: React.FC = ({ children }) => {
             return error.message;
           }
 
-          saveUser(result);
+          setUser(userAPIToUser(result));
 
           return result.data;
         },
