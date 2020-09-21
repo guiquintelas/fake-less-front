@@ -1,5 +1,6 @@
-import { Box, Button, InputBase, Paper } from '@material-ui/core';
+import { Box, Button, IconButton, InputBase, Paper, Tooltip } from '@material-ui/core';
 import React, { useRef, useState } from 'react';
+import { Close } from 'mdi-material-ui';
 import { useFeedContext } from '../contexts/FeedContext';
 import { useUserContext } from '../contexts/UserContext';
 
@@ -36,7 +37,7 @@ const NewPost: React.FC = () => {
                 uploadInputRef.current!.click();
               }}
             >
-              Add a picture
+              {img ? 'Change the picture' : 'Add a picture'}
               <input
                 ref={uploadInputRef}
                 style={{ display: 'none' }}
@@ -53,6 +54,19 @@ const NewPost: React.FC = () => {
                 }}
               />
             </Button>
+
+            {img && (
+              <Tooltip title="Remove Picture" aria-label="remove pic">
+                <IconButton
+                  size="small"
+                  aria-label="remove pic"
+                  style={{ marginBottom: '2px' }}
+                  onClick={() => setImg(null)}
+                >
+                  <Close fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            )}
           </Box>
 
           <Button
