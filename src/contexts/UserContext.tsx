@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { UserResponse } from '../@types/apiTypes';
 import api from '../api';
 import useDataMapper from '../hooks/useDataMapper';
 
@@ -77,6 +78,23 @@ const UserProvider: React.FC = ({ children }) => {
       localStorage.removeItem(USER_STORAGE);
     }
   }, [user]);
+
+  useEffect(() => {
+    const fetchLoggedUser = async () => {
+      if (user) {
+        let result: UserResponse;
+
+        try {
+          result = await api.get('/usuario/eu');
+          setUser(userAPIToUser(result));
+        } catch (error) {
+          setUser(undefined);
+        }
+      }
+    };
+
+    fetchLoggedUser();
+  }, []);
 
   return (
     <UserContext.Provider
