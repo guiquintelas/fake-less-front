@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/fake-less-front/static/js/main.78d95e0b.chunk.js",
-    "main.js.map": "/fake-less-front/static/js/main.78d95e0b.chunk.js.map",
+    "main.js": "/fake-less-front/static/js/main.e090beed.chunk.js",
+    "main.js.map": "/fake-less-front/static/js/main.e090beed.chunk.js.map",
     "runtime-main.js": "/fake-less-front/static/js/runtime-main.6ded1a00.js",
     "runtime-main.js.map": "/fake-less-front/static/js/runtime-main.6ded1a00.js.map",
-    "static/js/2.c1e02b28.chunk.js": "/fake-less-front/static/js/2.c1e02b28.chunk.js",
-    "static/js/2.c1e02b28.chunk.js.map": "/fake-less-front/static/js/2.c1e02b28.chunk.js.map",
+    "static/js/2.19d07cac.chunk.js": "/fake-less-front/static/js/2.19d07cac.chunk.js",
+    "static/js/2.19d07cac.chunk.js.map": "/fake-less-front/static/js/2.19d07cac.chunk.js.map",
     "index.html": "/fake-less-front/index.html",
-    "precache-manifest.bbf9f0350b8dcfe11a236fc30a44a674.js": "/fake-less-front/precache-manifest.bbf9f0350b8dcfe11a236fc30a44a674.js",
+    "precache-manifest.084e950aea0867c9944200f829d8326b.js": "/fake-less-front/precache-manifest.084e950aea0867c9944200f829d8326b.js",
     "service-worker.js": "/fake-less-front/service-worker.js",
-    "static/js/2.c1e02b28.chunk.js.LICENSE.txt": "/fake-less-front/static/js/2.c1e02b28.chunk.js.LICENSE.txt"
+    "static/js/2.19d07cac.chunk.js.LICENSE.txt": "/fake-less-front/static/js/2.19d07cac.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.6ded1a00.js",
-    "static/js/2.c1e02b28.chunk.js",
-    "static/js/main.78d95e0b.chunk.js"
+    "static/js/2.19d07cac.chunk.js",
+    "static/js/main.e090beed.chunk.js"
   ]
 }
