@@ -1,4 +1,4 @@
-import { ProfileResponse, UserResponse } from '../@types/apiTypes';
+import { PerfilAPI, UserResponse } from '../@types/apiTypes';
 import { ProfileFields, User } from '../contexts/UserContext';
 
 export default function useDataMapper() {
@@ -12,15 +12,15 @@ export default function useDataMapper() {
         birthDate: data.aniversario ? new Date(data.aniversario) : null,
         location: data.localidade,
         profileId: data.perfil.perfilId,
-        following: data.perfil.seguindo?.map((el) => el.perfilId) ?? [],
+        following: data.perfil.seguindo?.map((el) => el.perfilSeguidoId) ?? [],
         followers: data.perfil.seguidores?.map((el) => el.perfilId) ?? [],
       };
     },
 
-    profileAPIToUserFields({ data }: ProfileResponse): ProfileFields {
+    profileAPIToUserFields(data: PerfilAPI): ProfileFields {
       return {
         profileId: data.perfilId,
-        following: data.seguindo?.map((el) => el.perfilId) ?? [],
+        following: data.seguindo?.map((el) => el.perfilSeguidoId) ?? [],
         followers: data.seguidores?.map((el) => el.perfilId) ?? [],
       };
     },
