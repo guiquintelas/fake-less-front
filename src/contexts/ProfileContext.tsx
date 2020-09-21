@@ -8,7 +8,7 @@ type ProfileContextType = {
   user: User | null;
   loadingFollowBtn: boolean;
   fetchUser: (userId: string) => Promise<UserResponse | string>;
-  followProfile: (profileId: number) => Promise<ProfileResponse | string>;
+  toggleFollow: (profileId: number) => Promise<ProfileResponse | string>;
 };
 
 export const ProfileContext = createContext<ProfileContextType>({
@@ -17,7 +17,7 @@ export const ProfileContext = createContext<ProfileContextType>({
   fetchUser: () => {
     throw new Error('you should only use this context inside the provider!');
   },
-  followProfile: () => {
+  toggleFollow: () => {
     throw new Error('you should only use this context inside the provider!');
   },
 });
@@ -26,7 +26,7 @@ const ProfileProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingFollowBtn, setLoadingFollowBtn] = useState(false);
   const { userAPIToUser, profileAPIToUserFields } = useDataMapper();
-  const { updateUser } = useUserContext();
+  const { user: loggedUser, updateUser } = useUserContext();
 
   return (
     <ProfileContext.Provider
@@ -47,12 +47,14 @@ const ProfileProvider: React.FC = ({ children }) => {
           return result;
         },
 
-        async followProfile(profileId) {
+        async toggleFollow(profileId) {
           let result: ProfileResponse;
+
+          const following = loggedUser?.following.includes(profileId);
 
           try {
             setLoadingFollowBtn(true);
-            result = await api.post(`/perfil/${profileId}/seguir`);
+            result = await api.post(`/perfil/${profileId}/${following ? 'parar-de-seguir' : 'seguir'}`);
           } catch (error) {
             return error;
           } finally {

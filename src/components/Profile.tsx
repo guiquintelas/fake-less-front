@@ -25,7 +25,7 @@ const Profile: React.FC = () => {
   const { snackBar } = useSnackBarContext();
   const history = useHistory();
   const { user: loggedUser } = useUserContext();
-  const { user, fetchUser, loadingFollowBtn, followProfile } = useProfileContext();
+  const { user, fetchUser, loadingFollowBtn, toggleFollow } = useProfileContext();
 
   useEffect(() => {
     const init = async () => {
@@ -133,13 +133,13 @@ const Profile: React.FC = () => {
                   <Button
                     style={{ textTransform: 'none', width: '100%' }}
                     onClick={async () => {
-                      const result = await followProfile(user.profileId);
+                      const result = await toggleFollow(user.profileId);
 
                       if (typeof result === 'string') {
                         snackBar(result, 'danger');
                       }
                     }}
-                    color="primary"
+                    color={loggedUser.following.includes(user.profileId) ? 'default' : 'primary'}
                     variant="contained"
                     disableElevation
                     disabled={loggedUser.profileId === user.profileId || loadingFollowBtn}
