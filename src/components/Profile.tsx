@@ -1,4 +1,15 @@
-import { Grid, Box, Typography, Avatar, Button, CircularProgress, Tooltip } from '@material-ui/core';
+import {
+  Grid,
+  Box,
+  Typography,
+  Avatar,
+  Button,
+  CircularProgress,
+  Tooltip,
+  Divider,
+  GridList,
+  GridListTile,
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Email, MapMarker, CakeVariant, ArrowLeft, Pencil } from 'mdi-material-ui';
@@ -36,10 +47,24 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <Grid item md={4} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+      <Grid item md={4} xs={12} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
         {user ? (
           <Grid item>
-            <Box display="flex" pt={3} pb={2}>
+            <Box display="flex" pt={1} pb={2} justifyContent="center">
+              <Button
+                style={{ textTransform: 'none' }}
+                onClick={() => {
+                  history.push('/');
+                }}
+              >
+                <Box display="flex" pr={2}>
+                  <ArrowLeft />
+                </Box>
+                Back to Feed
+              </Button>
+            </Box>
+
+            <Box display="flex" pb={2}>
               <Box position="relative" width="70%" m="auto" pb="70%">
                 <Avatar
                   style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
@@ -97,7 +122,7 @@ const Profile: React.FC = () => {
                   </Box>
                 )}
 
-                <Box pt={4}>
+                <Box pt={3}>
                   <Box pb={2}>
                     <Button
                       style={{ textTransform: 'none', width: '100%' }}
@@ -112,20 +137,6 @@ const Profile: React.FC = () => {
                       Follow
                     </Button>
                   </Box>
-
-                  <Box>
-                    <Button
-                      style={{ textTransform: 'none', width: '100%', justifyContent: 'flex-start' }}
-                      onClick={() => {
-                        history.push('/');
-                      }}
-                    >
-                      <Box display="flex" pr={2}>
-                        <ArrowLeft />
-                      </Box>
-                      Back to Feed
-                    </Button>
-                  </Box>
                 </Box>
               </Box>
             </Box>
@@ -135,6 +146,64 @@ const Profile: React.FC = () => {
             <CircularProgress />
           </Box>
         )}
+
+        <Box mx={4} py={2}>
+          <Divider />
+        </Box>
+
+        <Box px={3}>
+          <Box pb={2}>
+            <Typography variant="h6">Gallery</Typography>
+          </Box>
+
+          <GridList spacing={8} cols={3} cellHeight="auto">
+            <GridListTile cols={1}>
+              <Box position="relative" width="100%" m="auto" pb="100%">
+                <img
+                  alt="teste"
+                  style={{ width: '100%', height: '100%', position: 'absolute', top: 0, borderRadius: '10px', left: 0 }}
+                  src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
+                />
+              </Box>
+            </GridListTile>
+            <GridListTile cols={1}>
+              <Box position="relative" width="100%" m="auto" pb="100%">
+                <img
+                  alt="teste"
+                  style={{ width: '100%', height: '100%', position: 'absolute', top: 0, borderRadius: '10px', left: 0 }}
+                  src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
+                />
+              </Box>
+            </GridListTile>
+            <GridListTile cols={1}>
+              <Box position="relative" width="100%" m="auto" pb="100%">
+                <img
+                  alt="teste"
+                  style={{ width: '100%', height: '100%', position: 'absolute', top: 0, borderRadius: '10px', left: 0 }}
+                  src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
+                />
+              </Box>
+            </GridListTile>
+            <GridListTile cols={1}>
+              <Box position="relative" width="100%" m="auto" pb="100%">
+                <img
+                  alt="teste"
+                  style={{ width: '100%', height: '100%', position: 'absolute', top: 0, borderRadius: '10px', left: 0 }}
+                  src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
+                />
+              </Box>
+            </GridListTile>
+            <GridListTile cols={1}>
+              <Box position="relative" width="100%" m="auto" pb="100%">
+                <img
+                  alt="teste"
+                  style={{ width: '100%', height: '100%', position: 'absolute', top: 0, borderRadius: '10px', left: 0 }}
+                  src="https://avatars2.githubusercontent.com/u/29166076?s=460&u=38c72ddb1aaa23b9350119d7db2645e9a2c3e4d1&v=4"
+                />
+              </Box>
+            </GridListTile>
+          </GridList>
+        </Box>
       </Grid>
 
       <Grid item container alignItems="center" xs={12} md={8}>
