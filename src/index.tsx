@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import grey from '@material-ui/core/colors/grey';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import App from './App';
@@ -66,9 +66,9 @@ ReactDOM.render(
         <SnackBarProvider>
           <ConfirmProvider>
             <UserProvider>
-              <Router>
+              <HashRouter basename="/">
                 <App />
-              </Router>
+              </HashRouter>
             </UserProvider>
           </ConfirmProvider>
         </SnackBarProvider>
