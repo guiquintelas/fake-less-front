@@ -3,7 +3,7 @@ import api from '../api';
 import useDataMapper from '../hooks/useDataMapper';
 
 export type User = {
-  id: string | number;
+  id: number;
   name: string;
   lastName: string;
   email: string;
@@ -35,6 +35,7 @@ type UserContextType = {
   login: (email: string, password: string) => Promise<ContextUser | string>;
   logout: () => void;
   register: (args: RegisterParams) => Promise<ContextUser | string>;
+  updateUser: (userFiels: Partial<User>) => void;
 };
 
 const USER_STORAGE = 'user';
@@ -58,6 +59,9 @@ export const UserContext = createContext<UserContextType>({
     throw new Error('you should only use this context inside the provider!');
   },
   logout: () => {
+    throw new Error('you should only use this context inside the provider!');
+  },
+  updateUser: () => {
     throw new Error('you should only use this context inside the provider!');
   },
 });
@@ -127,6 +131,13 @@ const UserProvider: React.FC = ({ children }) => {
           setUser(userAPIToUser(result));
 
           return result.data;
+        },
+
+        updateUser(userFields) {
+          setUser((oldUser) => ({
+            ...(oldUser as User),
+            ...userFields,
+          }));
         },
       }}
     >

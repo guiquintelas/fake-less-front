@@ -2,13 +2,13 @@ import React, { createContext, useContext, useState } from 'react';
 import { ProfileResponse, UserResponse } from '../@types/apiTypes';
 import api from '../api';
 import useDataMapper from '../hooks/useDataMapper';
-import { User } from './UserContext';
+import { User, useUserContext } from './UserContext';
 
 type ProfileContextType = {
   user: User | null;
   loadingFollowBtn: boolean;
   fetchUser: (userId: string) => Promise<UserResponse | string>;
-  followProfile: (profileId: string) => Promise<ProfileResponse | string>;
+  followProfile: (profileId: number) => Promise<ProfileResponse | string>;
 };
 
 export const ProfileContext = createContext<ProfileContextType>({
@@ -26,6 +26,7 @@ const ProfileProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingFollowBtn, setLoadingFollowBtn] = useState(false);
   const { userAPIToUser, profileAPIToUserFields } = useDataMapper();
+  const { updateUser } = useUserContext();
 
   return (
     <ProfileContext.Provider
@@ -60,8 +61,11 @@ const ProfileProvider: React.FC = ({ children }) => {
 
           setUser((oldUser) => ({
             ...(oldUser as User),
-            ...profileAPIToUserFields(result),
+            ...profileAPIToUserFields(result.data.perfilSeguido),
           }));
+
+          updateUser(profileAPIToUserFields(result.data.perfilLogado));
+
           return result;
         },
       }}

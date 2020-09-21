@@ -25,7 +25,7 @@ const Profile: React.FC = () => {
   const { snackBar } = useSnackBarContext();
   const history = useHistory();
   const { user: loggedUser } = useUserContext();
-  const { user, fetchUser } = useProfileContext();
+  const { user, fetchUser, loadingFollowBtn, followProfile } = useProfileContext();
 
   useEffect(() => {
     const init = async () => {
@@ -128,22 +128,26 @@ const Profile: React.FC = () => {
                 </Box>
               )}
 
-              <Box pt={3}>
-                <Box pb={2}>
+              {loggedUser && (
+                <Box pb={2} pt={3}>
                   <Button
                     style={{ textTransform: 'none', width: '100%' }}
-                    onClick={() => {
-                      history.push('/');
+                    onClick={async () => {
+                      const result = await followProfile(user.profileId);
+
+                      if (typeof result === 'string') {
+                        snackBar(result, 'danger');
+                      }
                     }}
                     color="primary"
                     variant="contained"
                     disableElevation
-                    disabled={loggedUser?.id === user.id}
+                    disabled={loggedUser.profileId === user.profileId || loadingFollowBtn}
                   >
-                    Follow
+                    {loggedUser.following.includes(user.profileId) ? 'Unfollow' : 'Follow'}
                   </Button>
                 </Box>
-              </Box>
+              )}
             </Box>
           </Box>
 
