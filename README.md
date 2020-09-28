@@ -1,6 +1,6 @@
-# pet-system-js
+# Fake Less
 
-Fakeless is a social network trying to solve the fake news problem with collective voting.
+Fake less is a social network trying to solve the fake news problem with collective voting.
 
 # Technologies
   - Typescript
